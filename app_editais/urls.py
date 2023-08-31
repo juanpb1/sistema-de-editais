@@ -6,4 +6,5 @@ import app_editais
 
 urlpatterns = [
     path('', views.home,name='home'),
+    path('prex/create', views.prex,name='prex'),
 ]

@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Cadastro Prex</title>
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+   </head>
+   <body>
+      <div class="wrapperPrexPage">
+         <div class="title">
+            Cadastro
+         </div>
+         <form action="{% %}"method="post">
+            {% csrf_token %}
+            <div class="field">
+               <input name="pis" type="text" required>
+               <label>Pis</label>
+            </div>
+            <div class="field">
+               <input name="nome" type="text" required>
+               <label>Nome</label>
+            </div>
+            <div class="field">
+                <input name="nacionalidade" type="text" required>
+                <label>Nacionalidade</label>
+             </div>
+             <div class="field">
+                <input name="cpf" type="text" required>
+                <label>Cpf</label>
+             </div>
+             <div class="field">
+                <input name="sexo" type="text" required>
+                <label>Sexo</label>
+             </div>
+             <div class="field">
+                <input name="email" type="text" required>
+                <label>Email</label>
+             </div>
+             <div class="field">
+                <input name="telefone" type="text" required>
+                <label>Telefone</label>
+             </div>
+             <div class="field">
+                <input name="data_nasc" type="text" required>
+                <label>Data de Nascimento</label>
+             </div>
+            <div class="content">
+            </div>
+            <div class="field">
+               <button type="submit" value="Cadastrar">
+                  Cadastrar
+               </button>
+            </div>
+         </form>
+      </div>
+   </body>
+</html>
