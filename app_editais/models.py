@@ -50,3 +50,13 @@ class Relatorio(models.Model):
     id = models.AutoField(primary_key=True)
     status = models.CharField(max_length=20, choices=[('Em andamento', 'Em andamento'), ('Concluído', 'Concluído')])
     projeto_id = models.ForeignKey(Projeto, on_delete=models.CASCADE)
+
+class Prex(models.Model):
+    pis = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=100)
+    nacionalidade = models.CharField(max_length=50)
+    cpf = models.CharField(max_length=14)
+    sexo = models.CharField(max_length=10)
+    email = models.EmailField()
+    telefone = models.CharField(max_length=15)
+    data_nasc = models.DateField()
