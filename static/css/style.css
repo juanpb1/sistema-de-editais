@@ -71,14 +71,14 @@ form .field input:valid{
   transition: all 0.3s ease;
 }
 
-.wrapperPrexPage{
-  width: 550px;
-  height: 700px;
+.wrapperAlunoPage{
+  width: 380px;
+  height: 530px;
   background: #fff;
   border-radius: 15px;
   box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
 }
-.wrapperPrexPage .title{
+.wrapperAlunoPage .title{
   font-size: 35px;
   font-weight: 600;
   text-align: center;
@@ -88,10 +88,71 @@ form .field input:valid{
   border-radius: 15px 15px 0 0;
   background: linear-gradient(-135deg, #54a9f3, #4158d0);
 }
+.wrapperAlunoPage form{
+  padding: 0px 30px 0px 30px;
+}
+.wrapperAlunoPage form .field{
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+  position: relative;
+}
+.wrapperAlunoPage form .field input{
+  height: 100%;
+  width: 100%;
+  margin-top: 40px;
+  outline: none;
+  font-size: 17px;
+  padding-left: 20px;
+  border: 1px solid lightgrey;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+.wrapperAlunoPage form .field input:focus,
+form .field input:valid{
+  border-color: #4158d0;
+}
+.wrapperAlunoPage form .field label{
+  position: absolute;
+  margin-top: 30px;
+  top: 50%;
+  left: 20px;
+  color: #999999;
+  font-weight: 400;
+  font-size: 17px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+.wrapperPrexPage{
+  width: 550px;
+  height: 730px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+}
+.wrapperPrexPage .title{
+  margin-top: 0px;
+  font-size: 35px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 70px;
+  color: #fff;
+  user-select: none;
+  border-radius: 15px 15px 0 0;
+  background: linear-gradient(-135deg, #54a9f3, #4158d0);
+}
 .wrapperPrexPage form{
-  padding: 10px 30px 50px 30px;
+  padding: 0px 30px 0px 30px;
 }
 .wrapperPrexPage form .field{
+  height: 50px;
+  width: 100%;
+  margin-top: 8px;
+  position: relative;
+  margin-bottom: 9px;
+}
+.field{
   height: 50px;
   width: 100%;
   margin-top: 10px;
@@ -100,7 +161,17 @@ form .field input:valid{
 .wrapperPrexPage form .field input{
   height: 100%;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 0px;
+  outline: none;
+  font-size: 17px;
+  padding-left: 20px;
+  border: 1px solid lightgrey;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+.field input{
+  height: 100%;
+  width: 100%;
   outline: none;
   font-size: 17px;
   padding-left: 20px;
@@ -112,7 +183,23 @@ form .field input:valid{
 form .field input:valid{
   border-color: #4158d0;
 }
+.field input:focus,
+form .field input:valid{
+  border-color: #4158d0;
+}
 .wrapperPrexPage form .field label{
+  position: absolute;
+  margin-top: -5px;
+  top: 50%;
+  left: 20px;
+  color: #999999;
+  font-weight: 400;
+  font-size: 17px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+.field label{
   position: absolute;
   margin-top: 0px;
   top: 50%;
@@ -124,10 +211,66 @@ form .field input:valid{
   transform: translateY(-50%);
   transition: all 0.3s ease;
 }
-
+.container{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+.box{
+  width: 30rem;
+  height: 20rem;
+  margin-top: 2rem;
+  background-color: #FFF;
+  border-radius: 1rem;
+  padding: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+}
+.title-box-confirmation{
+  align-self: self-start;
+  margin-top: 2rem;
+  margin-bottom: 0.1rem;
+  color:rgb(63, 63, 63)
+}
+.text-box-confirmation{
+  align-self: self-start;
+  color:rgb(63, 63, 63)
+}
+.text-box-confirmation-rodape{
+  margin-top: 2rem;
+  align-self: self-start;
+  color:rgb(63, 63, 63)
+}
+.field input[type="button"]{
+  color: #fff;
+  border: none;
+  padding-left: 0;
+  margin-top: 1px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(-135deg, #54a9f3, #4158d0);
+  transition: all 0.3s ease;
+}
+.field input[type="button"]:active{
+  transform: scale(0.95);
+}
 
 form .field input:focus ~ label,
 form .field input:valid ~ label{
+  top: 0%;
+  font-size: 16px;
+  color: #4158d0;
+  background: #fff;
+  transform: translateY(-50%);
+}
+.field input:focus ~ label,
+.field input:valid ~ label{
   top: 0%;
   font-size: 16px;
   color: #4158d0;
@@ -152,6 +295,11 @@ form .content input{
   height: 15px;
   background: red;
 }
+.content input{
+  width: 15px;
+  height: 15px;
+  background: red;
+}
 form .content label{
   color: #262626;
   user-select: none;
@@ -164,7 +312,19 @@ form .field input[type="submit"]{
   color: #fff;
   border: none;
   padding-left: 0;
-  margin-top: 25px;
+  margin-top: 0px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(-135deg, #54a9f3, #4158d0);
+  transition: all 0.3s ease;
+}
+
+.field input[type="button"]{
+  color: #fff;
+  border: none;
+  padding-left: 0;
+  margin-top: 15px;
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
@@ -174,6 +334,11 @@ form .field input[type="submit"]{
 form .field input[type="submit"]:active{
   transform: scale(0.95);
 }
+
+.field input[type="button"]:active{
+  transform: scale(0.95);
+}
+
 form .signup-link{
   color: #262626;
   margin-top: 45px;
@@ -208,4 +373,18 @@ form .signup-link a:hover{
   transition: all 0.3s ease;
   margin-left: 1px;
   margin-right: 1px;
+}
+form .field input[type="button"]{
+  color: #fff;
+  border: none;
+  padding-left: 0;
+  margin-top: 25px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(-135deg, #54a9f3, #4158d0);
+  transition: all 0.3s ease;
+}
+form .field input[type="button"]:active{
+  transform: scale(0.95);
 }
