@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Cadastro Prex</title>
+      <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+   </head>
+   <body>
+      <div class="wrapperPrexPage">
+         <div class="title">
+            Cadastro Prex
+         </div>
+         <form action="{% url 'formulario_prex' %}"method="post">
+            {% csrf_token %}
+            <div class="field">
+               <input name="pis" type="text" required>
+               <label>Pis</label>
+            </div>
+            <div class="field">
+               <input name="nome" type="text" required>
+               <label>Nome</label>
+            </div>
+            <div class="field">
+                <input name="nacionalidade" type="text" required>
+                <label>Nacionalidade</label>
+             </div>
+             <div class="field">
+                <input name="cpf" type="text" onkeypress="$(this).mask('000.000.000-00');" required>
+                <label>Cpf</label>
+             </div>
+             <div class="field">
+                <input name="sexo" type="text" required>
+                <label>Sexo</label>
+             </div>
+             <div class="field">
+                <input name="email" type="email" required>
+                <label>Email</label>
+             </div>
+             <div class="field">
+                <input name="telefone" type="text" onkeypress="$(this).mask('(00) 90000-0000');" required>
+                <label>Telefone</label>
+             </div>
+             <div class="field">
+                <input name="data_nasc" type="text" onkeypress="$(this).mask('0000-00-00');" required>
+                <label>Data de Nascimento</label>
+             </div>
+             <div class="field">
+               <input name="usuario" type="text" required>
+               <label>Usuário</label>
+            </div>
+            <div class="field">
+               <input name="senha" type="password" required>
+               <label>Senha</label>
+            </div>
+            <div class="field">
+               <input type="submit" value="Cadastrar">
+            </div>
+            </div>
+         </form>
+         {% if messages %}
+            <ul class="messages">
+                  {% for message in messages %}
+                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+            </ul>
+         {% endif %}
+      </div>
+   </body>
+</html>

@@ -9,6 +9,7 @@ class Aluno(models.Model):
     email = models.EmailField()
     telefone = models.CharField(max_length=15)
     data_nasc = models.DateField()
+    usuario = models.CharField(max_length=100, null=True)
 
 class Edital(models.Model):
     numero = models.AutoField(primary_key=True)
@@ -18,14 +19,13 @@ class Edital(models.Model):
     data_inicial = models.DateField()
     data_final = models.DateField()
 
-class EditalAluno(models.Model):
-    aluno_mat = models.ForeignKey(Aluno, on_delete=models.CASCADE)
-    edital_num = models.ForeignKey(Edital, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, default='Pendente', choices=[('Pendente', 'Pendente'), ('Aprovado', 'Aprovado'), ('Reprovado',
-    'Reprovado')])
-
-class Meta:
-    unique_together = ('aluno_mat', 'edital_num')
+class Inscricao(models.Model):
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    edital = models.ForeignKey(Edital, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, default='Pendente', choices=[('Pendente', 'Pendente'), ('Aprovado', 'Aprovado'), ('Reprovado', 'Reprovado')])
+    
+    class Meta:
+        unique_together = ('aluno', 'edital')
 
 class Professor(models.Model):
     matricula = models.AutoField(primary_key=True)
@@ -59,3 +59,4 @@ class Prex(models.Model):
     email = models.EmailField()
     telefone = models.CharField(max_length=15)
     data_nasc = models.DateField()
+    usuario = models.CharField(max_length=100, null=True)

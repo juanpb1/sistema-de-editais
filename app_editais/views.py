@@ -3,9 +3,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.contrib import messages
 from .models import Prex, Aluno, Edital, Inscricao
-from django.http.response import HttpResponse
 from django.contrib.auth.models import User, Group
-from django.http import HttpResponseForbidden
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from rolepermissions.roles import assign_role

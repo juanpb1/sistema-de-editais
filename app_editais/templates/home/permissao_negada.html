@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <title>Permissão Negada</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+
+    </style>
+    <script type="text/javascript">
+        function redirecionarTelaLogin() {
+           window.location.href = "/";
+        }
+     </script>
+  </head>
+  <body>
+    <div class="container">
+        <div class="box">
+            <h1 class="title-box-confirmation">Permissão Negada</h1>
+            <p class="text-box-confirmation"> Você não tem permissão para acessar essa página</p>
+            <div class="field">
+                <input type="button" value="VOLTAR" onclick="redirecionarTelaLogin();">
+            </div>
+            <p class="text-box-confirmation-rodape"></p>
+        </div>
+    </div>
+    {% include "shared/footer.html "%}
+  </body>
+</html>
