@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from .models import Prex
 
-# Create your views here.
 def home(request):
     return render(request, "home/index.html")
 
