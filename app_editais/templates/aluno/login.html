@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Login</title>
+      <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <script type="text/javascript">
+         function redirecionarTelaLogin() {
+            window.location.href = "/login/prex";
+         }
+      </script>
+   </head>
+   <body>
+      <div class="wrapper">
+         <div class="title">
+            Login Aluno
+         </div>
+         <form action="{% url 'aluno_login' %}"method="post">
+            {% csrf_token %}
+            <div class="boxBtn">
+               <div class="field">
+                  <input type="button" value="Prex" onclick="redirecionarTelaLogin();">
+               </div>
+               <div class="field">
+                  <input type="button" value="Professor" onclick="redirecionarTelaLogin();">
+               </div>
+            </div>
+            <div class="field">
+               <input name="usuario" type="text" required>
+               <label>Usuário</label>
+            </div>
+            <div class="field">
+               <input name="senha" type="password" required>
+               <label>Senha</label>
+            </div>
+            <div class="content">
+            </div>
+            <div class="field">
+               <input type="submit" value="Login">
+            </div>
+            <div class="signup-link">
+               Ainda não tem cadastro? <a href="/aluno/cadastro">Cadastre-se</a>
+            </div>
+         </form>
+         {% if messages %}
+            <ul class="messages">
+                  {% for message in messages %}
+                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+            </ul>
+         {% endif %}
+      </div>
+   </body>
+</html>
