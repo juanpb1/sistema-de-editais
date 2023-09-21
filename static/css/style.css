@@ -76,7 +76,7 @@ form .field input:valid{
 .wrapperAlunoPage{
   width: 380px;
   height: 530px;
-  background: #fff;
+  background: #810a0a;
   border-radius: 15px;
   box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
 }
@@ -191,14 +191,14 @@ form .field input:valid{
 }
 .wrapperPrexPage form .field label{
   position: absolute;
-  margin-top: -5px;
+  margin-top: -8px;
   top: 50%;
   left: 20px;
   color: #999999;
   font-weight: 400;
   font-size: 17px;
   pointer-events: none;
-  transform: translateY(-50%);
+  transform: translateY(-20px);
   transition: all 0.3s ease;
 }
 .field label{

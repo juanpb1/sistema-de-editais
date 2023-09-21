@@ -155,7 +155,6 @@ def inscrever_aluno(request):
             nova_insc.aluno = aluno
             nova_insc.edital = edital
             nova_insc.save()
-            edital.n_vagas = int(edital.n_vagas) - 1
             edital.save()
             messages.error(request, 'Inscrito com sucesso!')
     return redirect('aluno_home')

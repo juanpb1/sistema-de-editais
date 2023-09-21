@@ -27,6 +27,18 @@
             position: relative;
             left: 72rem;
          }
+         .botao{
+            color: #FFF;
+            background-color: #4158d0;
+            border-radius: 12px;
+            border: none;
+            width: 120px;
+            height: 25px;
+            align-items: center;
+         }
+         .botao:active{
+            transform: scale(0.95);
+         }
       </style>
    </head>
    <body>
@@ -59,7 +71,9 @@
                      <td>{{edital.data_inicial}}</td>
                      <td>{{edital.data_final}}</td>
                      <td>
-                     <input type="submit" value="Cadastrar">
+                        <button class="botao" type="submit">
+                           Inscrever-se
+                        </button>
                      <td>
                   </form>
                </tr>

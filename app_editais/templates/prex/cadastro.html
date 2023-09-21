@@ -43,11 +43,11 @@
                 <label>Email</label>
              </div>
              <div class="field">
-                <input name="telefone" type="text" onkeypress="$(this).mask('(00) 90000-0000');" required>
+                   <input name="telefone" type="text" onkeypress="$(this).mask('(00) 90000-0000');" required>
                 <label>Telefone</label>
              </div>
              <div class="field">
-                <input name="data_nasc" type="text" onkeypress="$(this).mask('0000-00-00');" required>
+                <input name="data_nasc" type="date" onkeypress="$(this).mask('0000-00-00');" required>
                 <label>Data de Nascimento</label>
              </div>
              <div class="field">
@@ -55,7 +55,7 @@
                <label>Usuário</label>
             </div>
             <div class="field">
-               <input name="senha" type="password" required>
+               <input name="senha" type="password" minlength="8" required>
                <label>Senha</label>
             </div>
             <div class="field">
