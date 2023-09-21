@@ -220,3 +220,11 @@ def create_edital(request):
 @has_role_decorator('prex')
 def edital_message(request):
     return render(request, 'edital/message.html')
+
+def visualizar_edital(request, numero):
+
+    edital = Edital.objects.get(numero=numero)
+    #alunos = Inscricao.objects.filter(edital_id=numero)
+    #inscricoes_id = Inscricao.objects.filter(edital_id=numero)
+
+    return render(request, 'prex/ver.html', {"edital": edital})
