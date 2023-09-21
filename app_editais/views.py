@@ -99,7 +99,7 @@ def prex_message(request):
 def aluno_home(request):
     data_atual = timezone.now()
     editais = {
-        'editais': Edital.objects.filter(Q(n_vagas__gt=0) & Q(data_final__gte=data_atual))
+        'editais': Edital.objects.filter(Q(data_final__gte=data_atual))
     }
     
     if request.method == 'GET':
