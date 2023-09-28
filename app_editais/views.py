@@ -129,6 +129,22 @@ def aluno_home(request):
 
     return render(request, 'aluno/index.html', editais)
 
+def status_editais(request):
+    aluno_user = request.user.username
+    aluno = Aluno.objects.get(usuario=aluno_user)
+    aluno_idd = aluno.matricula
+    
+    inscricoes = Inscricao.objects.filter(aluno_id=aluno_idd)
+    editais_inscritos = [inscricao.edital.numero for inscricao in inscricoes]
+
+    editais = Edital.objects.filter(numero__in=editais_inscritos)
+    
+    context = {
+    'editais': editais
+    }
+    
+    return render(request, 'aluno/status_edital.html', context)
+
 def aluno_login(request):
     if request.method == "GET":
         return render(request, "aluno/login.html")
