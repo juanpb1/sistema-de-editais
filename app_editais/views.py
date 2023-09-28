@@ -129,6 +129,28 @@ def aluno_home(request):
 
     return render(request, 'aluno/index.html', editais)
 
+@has_role_decorator('aluno')
+def status_editais(request):
+    aluno_user = request.user.username
+    aluno = Aluno.objects.get(usuario=aluno_user)
+    aluno_idd = aluno.matricula
+    
+    edital_status = {}
+    inscricoes = Inscricao.objects.filter(aluno_id=aluno_idd)
+    for inscricao in inscricoes:
+        edital_status[inscricao.edital.numero] = inscricao.status
+
+    editais = Edital.objects.filter(numero__in=list(edital_status.keys()))
+
+    for edital in editais:
+        edital.status = edital_status[edital.numero]
+    
+    context = {
+        'editais': editais
+    }
+    
+    return render(request, 'aluno/status_edital.html', context)
+
 def aluno_login(request):
     if request.method == "GET":
         return render(request, "aluno/login.html")
@@ -246,19 +268,15 @@ def projeto_criar(request):
     return render(request, 'projeto/criar.html')
 
 def create_projeto(request):
-
-    professor_user = request.user.username
-    professor = Professor.objects.get(usuario=professor_user)
-    professor_idd = professor.matricula
-        
+    
     novo_Projeto = Projeto()
     novo_Projeto.id = request.POST.get('id')
     novo_Projeto.nome = request.POST.get('nome')
     novo_Projeto.data_de_inicio = request.POST.get('data_de_inicio')
     novo_Projeto.data_de_fim = request.POST.get('data_de_fim')
-    novo_Projeto.professor_id = professor.matricula
     
     novo_Projeto.save()
+    
     return render(request, 'projeto/message.html')
 
 @has_role_decorator('professor')
@@ -307,6 +325,7 @@ def create_professor(request):
         return render(request, "professor/login.html")
 
 def home_professor(request):
+
     professor_user = request.user.username
     professor = Professor.objects.get(usuario=professor_user)
     professor_idd = professor.matricula
@@ -316,3 +335,37 @@ def home_professor(request):
     }
     
     return render(request, "professor/index.html", projetos) 
+
+def visualizar_edital(request, numero):
+
+    edital = Edital.objects.get(numero=numero)
+    alunos_inscritos = Inscricao.objects.filter(edital_id=numero)
+    #inscricoes_id = Inscricao.objects.filter(edital_id=numero)
+
+    return render(request, 'prex/edital.html', {"edital": edital, "alunos_inscritos": alunos_inscritos})
+
+def visualizar_aluno(request, numero):
+    aluno = Aluno.objects.get(matricula=numero)
+    return render(request, 'prex/aluno.html', {"aluno": aluno} )
+
+def aprovar_aluno(request):
+    edital_num = request.POST.get('edital_numero')
+    aluno_mat = request.POST.get('aluno_mat')
+    inscricao = Inscricao.objects.get(aluno_id=aluno_mat, edital_id=edital_num)
+    
+    inscricao.status = 'Aprovado'
+    inscricao.save()
+    messages.error(request, 'Aluno Aprovado')
+    
+    return redirect(f'/prex/edital/{edital_num}')
+
+def reprovar_aluno(request):
+    edital_num = request.POST.get('edital_numero')
+    aluno_mat = request.POST.get('aluno_mat')
+    inscricao = Inscricao.objects.get(aluno_id=aluno_mat, edital_id=edital_num)
+    
+    inscricao.status = 'Reprovado'
+    inscricao.save()
+    messages.error(request, 'Aluno Reprovado')
+    
+    return redirect(f'/prex/edital/{edital_num}')
