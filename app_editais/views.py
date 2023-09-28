@@ -339,3 +339,4 @@ def visualizar_aluno(request, numero):
 
     aluno = Aluno.objects.get(matricula=numero)
     return render(request, 'prex/aluno.html', {"aluno": aluno})
+
