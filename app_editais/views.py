@@ -224,7 +224,12 @@ def edital_message(request):
 def visualizar_edital(request, numero):
 
     edital = Edital.objects.get(numero=numero)
-    #alunos = Inscricao.objects.filter(edital_id=numero)
+    alunos_inscritos = Inscricao.objects.filter(edital_id=numero)
     #inscricoes_id = Inscricao.objects.filter(edital_id=numero)
 
-    return render(request, 'prex/ver.html', {"edital": edital})
+    return render(request, 'prex/edital.html', {"edital": edital, "alunos_inscritos": alunos_inscritos})
+
+def visualizar_aluno(request, numero):
+
+    aluno = Aluno.objects.get(matricula=numero)
+    return render(request, 'prex/aluno.html', {"aluno": aluno})

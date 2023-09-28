@@ -14,6 +14,7 @@ urlpatterns = [
     path('edital/criar', views.edital_criar, name='edital_criar'),
     path('edital/message', views.edital_message, name='edital_message'),
     path('logout', views.logout_view, name='logout'),
-    path('prex/edital/<int:numero>', views.visualizar_edital, name='visualizar_edital')
+    path('prex/edital/<int:numero>', views.visualizar_edital, name='visualizar_edital'),
+    path('prex/aluno/<int:numero>', views.visualizar_aluno, name='visualizar_aluno')
 ]
 
