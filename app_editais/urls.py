@@ -16,11 +16,7 @@ urlpatterns = [
     path('edital/criar', views.edital_criar, name='edital_criar'),
     path('edital/message', views.edital_message, name='edital_message'),
     path('logout', views.logout_view, name='logout'),
-<<<<<<< HEAD
     path('projeto/criar', views.projeto_criar, name='projeto_criar'),
     path('projeto/message', views.projeto_message, name= 'projeto_message'),
-=======
-    path('prex/edital/<int:numero>', views.visualizar_edital, name='visualizar_edital')
->>>>>>> 9c81b928dc8966a75474cda57f098c54b4362935
 ]
 
