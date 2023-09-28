@@ -129,6 +129,7 @@ def aluno_home(request):
 
     return render(request, 'aluno/index.html', editais)
 
+@has_role_decorator('aluno')
 def status_editais(request):
     aluno_user = request.user.username
     aluno = Aluno.objects.get(usuario=aluno_user)
@@ -139,10 +140,8 @@ def status_editais(request):
     for inscricao in inscricoes:
         edital_status[inscricao.edital.numero] = inscricao.status
 
-    # Filtrar os objetos Edital com base nos números de edital
     editais = Edital.objects.filter(numero__in=list(edital_status.keys()))
 
-    # Adicione o atributo 'status' aos objetos 'Edital'
     for edital in editais:
         edital.status = edital_status[edital.numero]
     
