@@ -22,7 +22,7 @@ urlpatterns = [
     path('prex/edital/<int:numero>', views.visualizar_edital, name='visualizar_edital'),
     path('prex/aluno/<int:numero>', views.visualizar_aluno, name='visualizar_aluno'),
     path('aprovar/', views.aprovar_aluno, name='aprovar_aluno'),
-    path('reprovar/', views.aprovar_aluno, name='aprovar_aluno'),
+    path('reprovar/', views.reprovar_aluno, name='reprovar_aluno'),
 
 ]
 

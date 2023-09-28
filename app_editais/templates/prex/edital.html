@@ -65,35 +65,42 @@
                <tr>
                   <th scope="col">Matricula</th>
                   <th scope="col">Nome do Aluno</th>
-                  <th scope="col">#</th>
-                  </form>
                </tr>
                </thead>
                <tbody>
                   <tr>
-                     <form action="{% url 'aprovar_aluno' %}"method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
-                        <input type="hidden" name="aluno_mat" value="{{ aluno_inscrito.aluno.matricula }}">
-                        <td>{{aluno_inscrito.aluno.matricula}}</td>
-                        <td>{{aluno_inscrito.aluno.nome}}</td>
-                        <td>
+                     <td>{{aluno_inscrito.aluno.matricula}}</td>
+                     <td>{{aluno_inscrito.aluno.nome}}</td>
+                     <td>
+                        <form action="{% url 'reprovar_aluno' %}" method="post">
+                           {% csrf_token %}
+                           <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
+                           <input type="hidden" name="aluno_mat" value="{{ aluno_inscrito.aluno.matricula }}">
                            <div class="btn-criar-edital">
                               <input class="btn btn-primary" type="submit" value="Aprovar aluno">
                            </div>
-                        </td>
-                        <td>
+                        </form>
+                     </td>
+                     <td>
+                        <form action="{% url 'reprovar_aluno' %}" method="post">
+                           {% csrf_token %}
+                           <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
+                           <input type="hidden" name="aluno_mat" value="{{ aluno_inscrito.aluno.matricula }}">
                            <div class="btn-criar-edital">
-                              <input class="btn btn-primary" type="button" value="Analisar aluno" onclick="analisarAluno('{{aluno_inscrito.aluno.matricula}}');">
+                              <input class="btn btn-primary" type="submit" value="Reprovar aluno">
                            </div>
-                        </td>
-                     </form>
+                        </form>
+                     </td>
+                     <td>
+                        <div class="btn-criar-edital">
+                           <input class="btn btn-primary" type="button" value="Analisar aluno" onclick="analisarAluno('{{aluno_inscrito.aluno.matricula}}');">
+                        </div>
+                     </td>
                   </tr>
                </tbody>
                {% endfor %}
             </table>
          </div>
-         
       </div>
       {% include "shared/footer.html "%}
       {% if messages %}
