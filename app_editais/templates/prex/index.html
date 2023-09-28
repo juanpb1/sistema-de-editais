@@ -12,6 +12,9 @@
          function redirecionarCriarEdital() {
             window.location.href = "edital/criar";
          }
+         function verEdital(numero) {
+            window.location.href = "prex/edital/0".replace('0', numero);
+         }
       </script>
       <style>
          html,body{
@@ -63,12 +66,9 @@
                   <td>{{edital.data_inicial}}</td>
                   <td>{{edital.data_final}}</td>
                   <td>
-                     <button type="button" class="btn btn-warning btn-sm" href=''>
-                        <span class="material-symbols-outlined">edit</span>
-                     </button>
-                     <button type="button" class="btn btn-danger btn-sm">
-                        <span class="material-symbols-outlined">delete</span>
-                     </button>
+                     <div class="btn-criar-edital">
+                        <input class="btn btn-primary" type="button" value="Ver edital" onclick="verEdital('{{edital.numero}}');">
+                     </div>
                   </td>
                </tr>
                {% endfor %}

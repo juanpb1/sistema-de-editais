@@ -13,24 +13,24 @@
          }
       </script>
       <script type="text/javascript">
-         function redirecionarTelaLoginProfessor() {
-            window.location.href = "/login/professor";
-         }
-      </script>
+        function redirecionarTelaLoginPrex() {
+           window.location.href = "/login/prex";
+        }
+     </script>
    </head>
    <body>
       <div class="wrapper">
          <div class="title">
-            Login Prex
+            Login Professor
          </div>
-         <form action="{% url 'login_prex' %}"method="post">
+         <form action="{% url 'login_professor' %}"method="post">
             {% csrf_token %}
             <div class="boxBtn">
                <div class="field">
-                  <input type="button" value="Aluno" onclick="redirecionarTelaLoginAluno();">
+                  <input type="button" value="Prex" onclick="redirecionarTelaLoginPrex();">
                </div>
                <div class="field">
-                  <input type="button" value="Professor" onclick="redirecionarTelaLoginProfessor();">
+                  <input type="button" value="Aluno" onclick="redirecionarTelaLoginAluno();">
                </div>
             </div>
             <div class="field">
@@ -47,7 +47,7 @@
                <input type="submit" value="Login">
             </div>
             <div class="signup-link">
-               <a href="/prex/cadastro?">Realizar novo cadastro</a>
+               <a href="/professor/cadastro?">Realizar novo cadastro</a>
             </div>
          </form>
          {% if messages %}

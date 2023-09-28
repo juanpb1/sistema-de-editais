@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.utils import timezone
 from django.contrib import messages
-from .models import Prex, Aluno, Edital, Inscricao, Projeto
+from .models import Prex, Aluno, Edital, Inscricao, Projeto, Professor
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -25,9 +25,6 @@ def prex(request):
     return render(request, "prex/index.html", editais)
 
 @has_role_decorator('admin')
-def prex_cadastro(request):
-    return render(request, "prex/cadastro.html")
-
 def create_prex(request):
     if request.method == "GET":
         return render(request, 'prex/cadastro.html')
@@ -49,11 +46,11 @@ def create_prex(request):
         
         if user:
             messages.error(request, 'Usuário já Cadastrado. Tente novamente.')
-            return redirect("formulario_prex")
+            return redirect("prex_cadastro")
         else:
             user = User.objects.create_user(username=usuario, password=senha)
             user.save()
-            assign_role(user, 'admin')
+            assign_role(user, 'prex')
             novo_Prex.save()
 
             prexs = {
@@ -86,6 +83,29 @@ def login_prex(request):
         else:
             messages.error(request, 'Usuário ou senha incorretos. Tente novamente.')
     return render(request, "prex/login.html")
+
+def login_professor(request):
+    if request.method == "GET":
+        return render(request, "professor/login.html")
+    else:
+        usuario = request.POST.get('usuario')
+        senha = request.POST.get('senha')
+        user = authenticate(username=usuario, password=senha)
+        grupos = Group.objects.filter(name="professor")
+        if user:
+            grupo = user.groups.all()
+            if len(list(grupo)) > 0 : 
+                if(grupos[0] == grupo[0]) :
+                    login(request, user)
+                    return redirect("professor")
+                else:
+                    messages.error(request, 'Cadastro não encontrado. Tente novamente.')
+            else:
+                login(request, user)
+                return redirect("professor")
+        else:
+            messages.error(request, 'Usuário ou senha incorretos. Tente novamente.')
+    return render(request, "professor/login.html")
 
 def logout_view(request):
     logout(request)
@@ -240,3 +260,47 @@ def create_projeto(request):
 @has_role_decorator('professor')
 def projeto_message(request):
     return render(request, 'projeto/message.html')
+
+def visualizar_edital(request, numero):
+
+    edital = Edital.objects.get(numero=numero)
+    #alunos = Inscricao.objects.filter(edital_id=numero)
+    #inscricoes_id = Inscricao.objects.filter(edital_id=numero)
+
+    return render(request, 'prex/ver.html', {"edital": edital})
+
+@has_role_decorator('admin')
+def create_professor(request):
+    if request.method == "GET":
+        return render(request, 'professor/cadastro.html')
+    else:   
+        novo_Professor = Professor()
+        novo_Professor.matricula = request.POST.get('matricula')
+        novo_Professor.nome = request.POST.get('nome')
+        novo_Professor.nacionalidade = request.POST.get('nacionalidade')
+        novo_Professor.cpf = request.POST.get('cpf')
+        novo_Professor.sexo = request.POST.get('sexo')
+        novo_Professor.email = request.POST.get('email')
+        novo_Professor.telefone = request.POST.get('telefone')
+        novo_Professor.data_nasc = request.POST.get('data_nasc')
+        novo_Professor.graduacao = request.POST.get('graduacao')
+        novo_Professor.usuario = request.POST.get('usuario')
+        usuario = request.POST.get('usuario')
+        senha = request.POST.get('senha')
+        
+        user = User.objects.filter(username=usuario).first()
+        
+        if user:
+            messages.error(request, 'Usuário já Cadastrado. Tente novamente.')
+            return redirect("login_pofessor")
+        else:
+            user = User.objects.create_user(username=usuario, password=senha)
+            user.save()
+            assign_role(user, 'professor')
+            novo_Professor.save()
+
+            messages.error(request, 'Cadastrado com sucesso.')
+        return render(request, "professor/login.html")
+
+def home_professor(request):
+    return render(request, "professor/index.html") 

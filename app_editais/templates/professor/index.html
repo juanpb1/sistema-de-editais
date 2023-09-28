@@ -4,14 +4,21 @@
 <html lang="pt-br" dir="ltr">
    <head>
       <meta charset="utf-8">
-      <title>Home Aluno</title>
+      <title>Home</title>
       <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+      <script type="text/javascript">
+         function redirecionarCriarEdital() {
+            window.location.href = "edital/criar";
+         }
+         function verEdital(numero) {
+            window.location.href = "prex/edital/0".replace('0', numero);
+         }
+      </script>
       <style>
          html,body{
             width: 100%;
-            place-items: center;
             background-image: url("{% static 'background.png'%}");
             background-size: cover;
             background-repeat: no-repeat;
@@ -21,31 +28,22 @@
             border-radius: 1rem;
             padding: 2rem;
             background-color: #FFF;
-            margin: 10rem;
+            margin: 15rem;
          }
-         .btn-primary.float-right {
-            position: relative;
-            left: 72rem;
-         }
-         .botao{
-            color: #FFF;
-            background-color: #4158d0;
-            border-radius: 12px;
-            border: none;
-            width: 120px;
-            height: 25px;
-            align-items: center;
-         }
-         .botao:active{
-            transform: scale(0.95);
+         .btn-criar-edital{
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
          }
       </style>
    </head>
    <body>
       {% include "shared/navbar.html "%}
       <div class="box-lista-editais">
-         <table class="table">
-            <h2 class="my-4" style="font-size: 28px;">Lista de Editais Disponíveis</h2>
+         <div class="btn-criar-edital">
+            <input class="btn btn-primary" type="button" value="Criar Edital Novo" onclick="redirecionarCriarEdital();">
+         </div>
+         <table class="table mt-5">
             <thead class="thead-dark">
             <tr>
                <th scope="col">Numero</th>
@@ -54,40 +52,29 @@
                <th scope="col">Número de vagas</th>
                <th scope="col">Data inicial</th>
                <th scope="col">Data final</th>
-               <th scope="col"></th>
+               <th scope="col">Ações</th>
                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
                {% for edital in editais %}
                <tr>
-                  <form action="{% url 'inscrever_aluno' %}"method="post">
-                     {% csrf_token %}
-                     <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
-                     <td name="edital">{{edital.numero}}</td>
-                     <td>{{edital.titulo}}</td>
-                     <td>{{edital.descricao}}</td>
-                     <td>{{edital.n_vagas}}</td>
-                     <td>{{edital.data_inicial}}</td>
-                     <td>{{edital.data_final}}</td>
-                     <td>
-                        <button class="botao" type="submit">
-                           Inscrever-se
-                        </button>
-                     <td>
-                  </form>
+                  <td>{{edital.numero}}</td>
+                  <td>{{edital.titulo}}</td>
+                  <td>{{edital.descricao}}</td>
+                  <td>{{edital.n_vagas}}</td>
+                  <td>{{edital.data_inicial}}</td>
+                  <td>{{edital.data_final}}</td>
+                  <td>
+                     <div class="btn-criar-edital">
+                        <input class="btn btn-primary" type="button" value="Ver edital" onclick="verEdital('{{edital.numero}}');">
+                     </div>
+                  </td>
                </tr>
                {% endfor %}
             </tbody>
          </table>
       </div>
-      {% if messages %}
-            <ul class="messages">
-                  {% for message in messages %}
-                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                  {% endfor %}
-            </ul>
-         {% endif %}
       {% include "shared/footer.html "%}
-   </body>
+</body>
 </html>
