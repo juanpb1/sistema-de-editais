@@ -268,12 +268,16 @@ def projeto_criar(request):
     return render(request, 'projeto/criar.html')
 
 def create_projeto(request):
+    professor_user = request.user.username
+    professor = Professor.objects.get(usuario=professor_user)
+    professor_idd = professor.matricula
     
     novo_Projeto = Projeto()
     novo_Projeto.id = request.POST.get('id')
     novo_Projeto.nome = request.POST.get('nome')
     novo_Projeto.data_de_inicio = request.POST.get('data_de_inicio')
     novo_Projeto.data_de_fim = request.POST.get('data_de_fim')
+    novo_Projeto.professor_id = professor.matricula
     
     novo_Projeto.save()
     
@@ -369,7 +373,6 @@ def aprovar_aluno(request):
         
     return redirect(f'/prex/edital/{edital_num}')
     
-
 def reprovar_aluno(request):
     edital_num = request.POST.get('edital_numero')
     aluno_mat = request.POST.get('aluno_mat')
