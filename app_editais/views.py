@@ -339,10 +339,13 @@ def home_professor(request):
 def visualizar_edital(request, numero):
 
     edital = Edital.objects.get(numero=numero)
-    alunos_inscritos = Inscricao.objects.filter(edital_id=numero)
+    alunos_pendentes = Inscricao.objects.filter(edital_id=numero, status= "Pendente")
+    alunos_aprovados = Inscricao.objects.filter(edital_id=numero, status= "Aprovado")
+    alunos_reprovados = Inscricao.objects.filter(edital_id=numero, status= "Reprovado")
+    
     #inscricoes_id = Inscricao.objects.filter(edital_id=numero)
 
-    return render(request, 'prex/edital.html', {"edital": edital, "alunos_inscritos": alunos_inscritos})
+    return render(request, 'prex/edital.html', {"edital": edital, "alunos_pendentes": alunos_pendentes, "alunos_aprovados": alunos_aprovados, "alunos_reprovados": alunos_reprovados})
 
 def visualizar_aluno(request, numero):
     aluno = Aluno.objects.get(matricula=numero)
@@ -353,11 +356,19 @@ def aprovar_aluno(request):
     aluno_mat = request.POST.get('aluno_mat')
     inscricao = Inscricao.objects.get(aluno_id=aluno_mat, edital_id=edital_num)
     
-    inscricao.status = 'Aprovado'
-    inscricao.save()
-    messages.error(request, 'Aluno Aprovado')
+    edital = Edital.objects.get(numero= edital_num)
     
+    if edital.n_vagas > 0:
+        inscricao.status = 'Aprovado'
+        inscricao.save()
+        edital.n_vagas = edital.n_vagas - 1
+        edital.save()
+        messages.error(request, 'Aluno Aprovado')
+    else:
+        messages.error(request, 'Vagas indisponíveis')
+        
     return redirect(f'/prex/edital/{edital_num}')
+    
 
 def reprovar_aluno(request):
     edital_num = request.POST.get('edital_numero')

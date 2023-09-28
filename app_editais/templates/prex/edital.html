@@ -58,9 +58,8 @@
             <p>{{ edital.descricao }}</p>
          </div>
          <div class="alunos-inscritos">
-            <h4> ALUNOS INSCRITOS </h4>
+            <h4> ALUNOS INSCRITOS PENDENTES </h4>
             <table class="table mt-2">
-               {% for aluno_inscrito in alunos_inscritos %}
                <thead class="thead-dark">
                <tr>
                   <th scope="col">Matricula</th>
@@ -68,14 +67,15 @@
                </tr>
                </thead>
                <tbody>
+                  {% for aluno_pendente in alunos_pendentes %}
                   <tr>
-                     <td>{{aluno_inscrito.aluno.matricula}}</td>
-                     <td>{{aluno_inscrito.aluno.nome}}</td>
+                     <td>{{aluno_pendente.aluno.matricula}}</td>
+                     <td>{{aluno_pendente.aluno.nome}}</td>
                      <td>
-                        <form action="{% url 'reprovar_aluno' %}" method="post">
+                        <form action="{% url 'aprovar_aluno' %}" method="post">
                            {% csrf_token %}
                            <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
-                           <input type="hidden" name="aluno_mat" value="{{ aluno_inscrito.aluno.matricula }}">
+                           <input type="hidden" name="aluno_mat" value="{{ aluno_pendente.aluno.matricula }}">
                            <div class="btn-criar-edital">
                               <input class="btn btn-primary" type="submit" value="Aprovar aluno">
                            </div>
@@ -85,7 +85,7 @@
                         <form action="{% url 'reprovar_aluno' %}" method="post">
                            {% csrf_token %}
                            <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
-                           <input type="hidden" name="aluno_mat" value="{{ aluno_inscrito.aluno.matricula }}">
+                           <input type="hidden" name="aluno_mat" value="{{ aluno_pendente.aluno.matricula }}">
                            <div class="btn-criar-edital">
                               <input class="btn btn-primary" type="submit" value="Reprovar aluno">
                            </div>
@@ -93,7 +93,7 @@
                      </td>
                      <td>
                         <div class="btn-criar-edital">
-                           <input class="btn btn-primary" type="button" value="Analisar aluno" onclick="analisarAluno('{{aluno_inscrito.aluno.matricula}}');">
+                           <input class="btn btn-primary" type="button" value="Analisar aluno" onclick="analisarAluno('{{aluno_pendente.aluno.matricula}}');">
                         </div>
                      </td>
                   </tr>
@@ -102,6 +102,53 @@
             </table>
          </div>
       </div>
+
+      <div class="box-lista-editais">
+         <div class="alunos-inscritos">
+            <h4> ALUNOS APROVADOS </h4>
+            <table class="table mt-2">
+               <thead class="thead-dark">
+               <tr>
+                  <th scope="col">Matricula</th>
+                  <th scope="col">Nome do Aluno</th>
+               </tr>
+               </thead>
+               <tbody>
+                  {% for aluno_aprovado in alunos_aprovados %}
+                  <tr>
+                     <td>{{aluno_aprovado.aluno.matricula}}</td>
+                     <td>{{aluno_aprovado.aluno.nome}}</td>
+                  </tr>
+               </tbody>
+               {% endfor %}
+            </table>
+         </div>
+      </div>
+
+      <div class="box-lista-editais">
+         <div class="alunos-inscritos">
+            <h4> ALUNOS REPROVADOS </h4>
+            <table class="table mt-2">
+               <thead class="thead-dark">
+               <tr>
+                  <th scope="col">Matricula</th>
+                  <th scope="col">Nome do Aluno</th>
+               </tr>
+               </thead>
+               <tbody>
+                  {% for aluno_reprovado in alunos_reprovados %}
+                  <tr>
+                     <td>{{aluno_reprovado.aluno.matricula}}</td>
+                     <td>{{aluno_reprovado.aluno.nome}}</td>
+                  </tr>
+               </tbody>
+               {% endfor %}
+            </table>
+         </div>
+      </div>
+
+      
+
       {% include "shared/footer.html "%}
       {% if messages %}
             <ul class="messages">
