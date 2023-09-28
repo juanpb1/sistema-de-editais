@@ -134,13 +134,20 @@ def status_editais(request):
     aluno = Aluno.objects.get(usuario=aluno_user)
     aluno_idd = aluno.matricula
     
+    edital_status = {}
     inscricoes = Inscricao.objects.filter(aluno_id=aluno_idd)
-    editais_inscritos = [inscricao.edital.numero for inscricao in inscricoes]
+    for inscricao in inscricoes:
+        edital_status[inscricao.edital.numero] = inscricao.status
 
-    editais = Edital.objects.filter(numero__in=editais_inscritos)
+    # Filtrar os objetos Edital com base nos números de edital
+    editais = Edital.objects.filter(numero__in=list(edital_status.keys()))
+
+    # Adicione o atributo 'status' aos objetos 'Edital'
+    for edital in editais:
+        edital.status = edital_status[edital.numero]
     
     context = {
-    'editais': editais
+        'editais': editais
     }
     
     return render(request, 'aluno/status_edital.html', context)

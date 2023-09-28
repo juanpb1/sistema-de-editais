@@ -45,15 +45,14 @@
       {% include "shared/navbar.html "%}
       <div class="box-lista-editais">
          <table class="table">
-            <h2 class="my-4" style="font-size: 28px;">Lista de Editais</h2>
+            <h2 class="my-4" style="font-size: 28px;">Editais inscritos</h2>
             <thead class="thead-dark">
             <tr>
                <th scope="col">Numero</th>
                <th scope="col">Título</th>
-               <th scope="col">Número de vagas</th>
                <th scope="col">Data inicial</th>
                <th scope="col">Data final</th>
-               <th scope="col"></th>
+               <th scope="col">Status</th>
                <th scope="col"></th>
             </tr>
             </thead>
@@ -62,10 +61,9 @@
                <tr>
                     <td name="edital">{{edital.numero}}</td>
                     <td>{{edital.titulo}}</td>
-                    <td>{{edital.n_vagas}}</td>
                     <td>{{edital.data_inicial}}</td>
                     <td>{{edital.data_final}}</td>
-                    <td>{{edital.data_final}}<td>
+                    <td>{{edital.status}}<td>
                </tr>
                {% endfor %}
             </tbody>
