@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.utils import timezone
 from django.contrib import messages
-from .models import Prex, Aluno, Edital, Inscricao
+from .models import Prex, Aluno, Edital, Inscricao, Projeto
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -220,3 +220,23 @@ def create_edital(request):
 @has_role_decorator('prex')
 def edital_message(request):
     return render(request, 'edital/message.html')
+
+@has_role_decorator('professor')
+def projeto_criar(request):
+    return render(request, 'projeto/criar.html')
+
+def create_projeto(request):
+    
+    novo_Projeto = Projeto()
+    novo_Projeto.id = request.POST.get('id')
+    novo_Projeto.nome = request.POST.get('nome')
+    novo_Projeto.data_de_inicio = request.POST.get('data_de_inicio')
+    novo_Projeto.data_de_fim = request.POST.get('data_de_fim')
+    
+    novo_Projeto.save()
+    
+    return render(request, 'projeto/message.html')
+
+@has_role_decorator('professor')
+def projeto_message(request):
+    return render(request, 'projeto/message.html')
