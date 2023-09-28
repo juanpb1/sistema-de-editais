@@ -325,7 +325,16 @@ def create_professor(request):
         return render(request, "professor/login.html")
 
 def home_professor(request):
-    return render(request, "professor/index.html")
+
+    professor_user = request.user.username
+    professor = Professor.objects.get(usuario=professor_user)
+    professor_idd = professor.matricula
+    
+    projetos = {
+        'projetos': Projeto.objects.filter(professor_id=professor_idd)
+    }
+    
+    return render(request, "professor/index.html", projetos) 
 
 def visualizar_edital(request, numero):
 
