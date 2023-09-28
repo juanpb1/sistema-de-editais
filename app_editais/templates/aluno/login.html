@@ -8,8 +8,13 @@
       <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
       <script type="text/javascript">
-         function redirecionarTelaLogin() {
+         function redirecionarTelaLoginPrex() {
             window.location.href = "/login/prex";
+         }
+      </script>
+      <script type="text/javascript">
+         function redirecionarTelaLoginProfessor() {
+            window.location.href = "/login/professor";
          }
       </script>
    </head>
@@ -22,7 +27,7 @@
             {% csrf_token %}
             <div class="boxBtn">
                <div class="field">
-                  <input type="button" value="Prex" onclick="redirecionarTelaLogin();">
+                  <input type="button" value="Prex" onclick="redirecionarTelaLoginPrex();">
                </div>
                <div class="field">
                   <input type="button" value="Professor" onclick="redirecionarTelaLogin();">

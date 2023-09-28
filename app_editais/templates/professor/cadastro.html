@@ -4,7 +4,7 @@
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
-      <title>Cadastro Prex</title>
+      <title>Cadastro Professor</title>
       <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
@@ -14,13 +14,13 @@
    <body>
       <div class="wrapperPrexPage">
          <div class="title">
-            Cadastro Prex
+            Cadastro Professor
          </div>
-         <form action="{% url 'prex_cadastro' %}"method="post">
+         <form action="{% url 'professor_cadastro' %}"method="post">
             {% csrf_token %}
             <div class="field">
-               <input name="pis" type="text" required>
-               <label>Pis</label>
+               <input name="matricula" type="text" required>
+               <label>Matrícula</label>
             </div>
             <div class="field">
                <input name="nome" type="text" required>
@@ -49,6 +49,10 @@
              <div class="field">
                 <input name="data_nasc" type="date" onkeypress="$(this).mask('0000-00-00');" required>
                 <label>Data de Nascimento</label>
+             </div>
+             <div class="field">
+                <input name="graduacao" type="text" required>
+                <label>Graduação</label>
              </div>
              <div class="field">
                <input name="usuario" type="text" required>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.utils import timezone
 from django.contrib import messages
-from .models import Prex, Aluno, Edital, Inscricao
+from .models import Prex, Aluno, Edital, Inscricao, Projeto, Professor
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -25,9 +25,6 @@ def prex(request):
     return render(request, "prex/index.html", editais)
 
 @has_role_decorator('admin')
-def prex_cadastro(request):
-    return render(request, "prex/cadastro.html")
-
 def create_prex(request):
     if request.method == "GET":
         return render(request, 'prex/cadastro.html')
@@ -49,11 +46,11 @@ def create_prex(request):
         
         if user:
             messages.error(request, 'Usuário já Cadastrado. Tente novamente.')
-            return redirect("formulario_prex")
+            return redirect("prex_cadastro")
         else:
             user = User.objects.create_user(username=usuario, password=senha)
             user.save()
-            assign_role(user, 'admin')
+            assign_role(user, 'prex')
             novo_Prex.save()
 
             prexs = {
@@ -86,6 +83,29 @@ def login_prex(request):
         else:
             messages.error(request, 'Usuário ou senha incorretos. Tente novamente.')
     return render(request, "prex/login.html")
+
+def login_professor(request):
+    if request.method == "GET":
+        return render(request, "professor/login.html")
+    else:
+        usuario = request.POST.get('usuario')
+        senha = request.POST.get('senha')
+        user = authenticate(username=usuario, password=senha)
+        grupos = Group.objects.filter(name="professor")
+        if user:
+            grupo = user.groups.all()
+            if len(list(grupo)) > 0 : 
+                if(grupos[0] == grupo[0]) :
+                    login(request, user)
+                    return redirect("professor")
+                else:
+                    messages.error(request, 'Cadastro não encontrado. Tente novamente.')
+            else:
+                login(request, user)
+                return redirect("professor")
+        else:
+            messages.error(request, 'Usuário ou senha incorretos. Tente novamente.')
+    return render(request, "professor/login.html")
 
 def logout_view(request):
     logout(request)
@@ -220,6 +240,30 @@ def create_edital(request):
 @has_role_decorator('prex')
 def edital_message(request):
     return render(request, 'edital/message.html')
+
+@has_role_decorator('professor')
+def projeto_criar(request):
+    return render(request, 'projeto/criar.html')
+
+def create_projeto(request):
+
+    professor_user = request.user.username
+    professor = Professor.objects.get(usuario=professor_user)
+    professor_idd = professor.matricula
+        
+    novo_Projeto = Projeto()
+    novo_Projeto.id = request.POST.get('id')
+    novo_Projeto.nome = request.POST.get('nome')
+    novo_Projeto.data_de_inicio = request.POST.get('data_de_inicio')
+    novo_Projeto.data_de_fim = request.POST.get('data_de_fim')
+    novo_Projeto.professor_id = professor.matricula
+    
+    novo_Projeto.save()
+    return render(request, 'projeto/message.html')
+
+@has_role_decorator('professor')
+def projeto_message(request):
+    return render(request, 'projeto/message.html')
 
 def visualizar_edital(request, numero):
 

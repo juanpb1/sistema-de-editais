@@ -6,7 +6,9 @@ import app_editais
 urlpatterns = [
     # path('', views.home,name='home'),
     path('prex', views.prex, name='prex'),
-    path('prex/cadastro', views.prex_cadastro,name='prex_cadastro'),
+    path('professor', views.home_professor, name='professor'),
+    path('prex/cadastro', views.create_prex,name='prex_cadastro'),
+    path('professor/cadastro', views.create_professor,name='professor_cadastro'),
     path('prex/message', views.prex_message, name='prex_message'),
     path('aluno', views.aluno_home, name='aluno_home'),
     path('aluno/cadastro', views.aluno_cadastro, name='aluno_cadastro'),
