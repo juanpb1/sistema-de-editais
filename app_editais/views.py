@@ -339,3 +339,27 @@ def visualizar_aluno(request, numero):
 
     aluno = Aluno.objects.get(matricula=numero)
     return render(request, 'prex/aluno.html', {"aluno": aluno})
+
+def aprovar_aluno(request):
+
+    edital_num = request.POST.get('edital_numero')
+    aluno_mat = request.POST.get('aluno_mat')
+    inscricao = Inscricao.objects.get(aluno_id=aluno_mat, edital_id=edital_num)
+    
+    inscricao.status = 'Aprovado'
+    inscricao.save()
+    messages.error(request, 'Aluno Aprovado')
+    
+    return redirect(f'/prex/edital/{edital_num}')
+
+def reprovar_aluno(request):
+
+    edital_num = request.POST.get('edital_numero')
+    aluno_mat = request.POST.get('aluno_mat')
+    inscricao = Inscricao.objects.get(aluno_id=aluno_mat, edital_id=edital_num)
+    
+    inscricao.status = 'Reprovado'
+    inscricao.save()
+    messages.error(request, 'Aluno Reprovado')
+    
+    return redirect(f'/prex/edital/{edital_num}')
