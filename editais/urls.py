@@ -29,8 +29,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('login/prex', views.login_prex, name='login_prex'),
     path('login/aluno', views.aluno_login, name='aluno_login'),
+    path('login/professor', views.login_professor, name='login_professor'),
     path('inscricao/', views.inscrever_aluno, name='inscrever_aluno'),
-    path('cadastro_prex', views.create_prex, name='formulario_prex'),
     path('cadastro_aluno', views.create_aluno, name= 'aluno_cadastro'),
     path('criar_edital', views.create_edital, name='edital_criar')
 ]

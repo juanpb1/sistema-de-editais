@@ -38,6 +38,7 @@ class Professor(models.Model):
     telefone = models.CharField(max_length=15)
     data_nasc = models.DateField()
     graduacao = models.CharField(max_length=100)
+    usuario = models.CharField(max_length=100, null=True)
 
 class Projeto(models.Model):
     id = models.AutoField(primary_key=True)
