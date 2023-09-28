@@ -19,5 +19,8 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
     path('projeto/criar', views.projeto_criar, name='projeto_criar'),
     path('projeto/message', views.projeto_message, name= 'projeto_message'),
+    path('prex/edital/<int:numero>', views.visualizar_edital, name='visualizar_edital'),
+    path('prex/aluno/<int:numero>', views.visualizar_aluno, name='visualizar_aluno')
+
 ]
 
