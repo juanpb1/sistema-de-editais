@@ -33,7 +33,7 @@ urlpatterns = [
     path('inscricao/', views.inscrever_aluno, name='inscrever_aluno'),
     path('cadastro_aluno', views.create_aluno, name= 'aluno_cadastro'),
     path('criar_projeto', views.create_projeto, name= 'projeto_criar'),
-    path('criar_edital', views.create_edital, name='edital_criar')
+    # path('criar_edital', views.create_edital, name='edital_criar')
 ]
 
 

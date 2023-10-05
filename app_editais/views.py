@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from rolepermissions.roles import assign_role
 import datetime as dd
-from datetime import datetime
+from datetime import datetime, timedelta
 from rolepermissions.decorators import has_role_decorator
 
 # Create your views here.
@@ -47,9 +47,10 @@ def create_prex(request):
         formato_data = "%Y-%m-%d"
         data_nas = datetime.strptime(data_nas, formato_data)
         data = data_nas.date()
-        data_atual = dd.date.today()
+        data_hj = dd.date.today()
+        data_min = data_hj - timedelta(days=16 * 365)
         
-        if data >= data_atual:
+        if data > data_min:
             messages.error(request, 'Data inválida. Tente novamente.')
             return redirect("prex_cadastro")
         
@@ -242,9 +243,10 @@ def create_aluno(request):
         formato_data = "%Y-%m-%d"
         data_nas = datetime.strptime(data_nas, formato_data)
         data = data_nas.date()
-        data_atual = dd.date.today()
+        data_hj = dd.date.today()
+        data_min = data_hj - timedelta(days=16 * 365)
         
-        if data >= data_atual:
+        if data > data_min:
             messages.error(request, 'Data inválida. Tente novamente.')
             return redirect("aluno_cadastro")
         
@@ -279,19 +281,30 @@ def edital_criar(request):
     return render(request, 'edital/criar.html')
 
 def create_edital(request):
-       
-    novo_Edital = Edital()
-    # novo_Edital.numero = request.POST.get('numero')
-    novo_Edital.titulo = request.POST.get('titulo')
-    novo_Edital.descricao = request.POST.get('descricao')
-    novo_Edital.n_vagas = request.POST.get('n_vagas')
-    novo_Edital.n_vagas_t = request.POST.get('n_vagas')
-    novo_Edital.data_inicial = request.POST.get('data_inicial')
-    novo_Edital.data_final = request.POST.get('data_final')
+    if request.method == "GET":
+        return render(request, 'prex/index.html')
+    else: 
+        novo_Edital = Edital()
+        novo_Edital.titulo = request.POST.get('titulo')
+        novo_Edital.descricao = request.POST.get('descricao')
+        novo_Edital.n_vagas = request.POST.get('n_vagas')
+        novo_Edital.n_vagas_t = request.POST.get('n_vagas')
+        novo_Edital.data_inicial = request.POST.get('data_inicial')
+        novo_Edital.data_final = request.POST.get('data_final')
+    
+        data_ini = request.POST.get('data_inicial')
+        formato_data = "%Y-%m-%d"
+        data_in = datetime.strptime(data_ini, formato_data)
+        data_fin = request.POST.get('data_final')
+        data_fi = datetime.strptime(data_fin, formato_data)
+        
+        if data_fi < data_in:
+            messages.error(request, 'Data inválida. Tente novamente.')
+            return render(request, 'edital/criar.html')
 
-    novo_Edital.save()
+        novo_Edital.save()
 
-    return render(request, 'edital/message.html')
+        return render(request, 'edital/message.html')
 
 @has_role_decorator('prex')
 def edital_message(request):
@@ -352,9 +365,10 @@ def create_professor(request):
         formato_data = "%Y-%m-%d"
         data_nas = datetime.strptime(data_nas, formato_data)
         data = data_nas.date()
-        data_atual = dd.date.today()
+        data_hj = dd.date.today()
+        data_min = data_hj - timedelta(days=16 * 365)
         
-        if data >= data_atual:
+        if data > data_min:
             messages.error(request, 'Data inválida. Tente novamente.')
             return redirect("professor_cadastro")
         
