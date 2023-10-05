@@ -16,16 +16,37 @@
       <style>
          html,body{
             width: 100%;
+            heigth: 100%;
             background-image: url("{% static 'background.png'%}");
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            padding: 0 0 2.7rem 0;
          }
          .box-lista-editais{
             border-radius: 1rem;
             padding: 2rem;
             background-color: #FFF;
-            margin: 15rem;
+            margin-left: 15rem;
+            margin-right: 15rem;
+            margin-top: 7rem;
+         }
+         .box-lista-editais-a{
+            border-radius: 1rem;
+            padding: 2rem;
+            background-color: #FFF;
+            margin-left: 15rem;
+            margin-right: 15rem;
+            margin-top: 2rem;
+         }
+         .box-lista-editais-r{
+            border-radius: 1rem;
+            padding: 2rem;
+            background-color: #FFF;
+            margin-left: 15rem;
+            margin-right: 15rem;
+            margin-top: 2rem;
+            margin-button: 7rem;
          }
          .btn-criar-edital{
             display: flex;
@@ -58,6 +79,15 @@
             <p>{{ edital.descricao }}</p>
          </div>
          <div class="alunos-inscritos">
+            <div>
+               {% if messages %}
+                  <ul class="messages">
+                        {% for message in messages %}
+                           <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                  </ul>
+               {% endif %}
+            </div>
             <h4> ALUNOS INSCRITOS PENDENTES </h4>
             <table class="table mt-2">
                <thead class="thead-dark">
@@ -102,8 +132,7 @@
             </table>
          </div>
       </div>
-
-      <div class="box-lista-editais">
+      <div class="box-lista-editais-a">
          <div class="alunos-inscritos">
             <h4> ALUNOS APROVADOS </h4>
             <table class="table mt-2">
@@ -125,7 +154,7 @@
          </div>
       </div>
 
-      <div class="box-lista-editais">
+      <div class="box-lista-editais-r">
          <div class="alunos-inscritos">
             <h4> ALUNOS REPROVADOS </h4>
             <table class="table mt-2">
@@ -146,17 +175,8 @@
             </table>
          </div>
       </div>
-
-      
-
-      {% include "shared/footer.html "%}
-      {% if messages %}
-            <ul class="messages">
-                  {% for message in messages %}
-                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                  {% endfor %}
-            </ul>
-         {% endif %}
-      {% include "shared/footer.html "%}
-</body>
+      <div>
+         {% include "shared/footer.html "%}
+      </div>
+   </body>
 </html>

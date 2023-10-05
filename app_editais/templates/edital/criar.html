@@ -35,10 +35,6 @@
         <form action="{% url 'edital_criar' %}"method="post">
             {% csrf_token %}
             <div class="form-group mt-2">
-                <label for="exampleFormControlInput1">Numero</label>
-                <input type="text" class="form-control" name="numero" placeholder="00000000000">
-            </div>
-            <div class="form-group mt-2">
                 <label for="exampleFormControlInput1">Titulo</label>
                 <input type="text" class="form-control" name="titulo"  placeholder="Processo Seletivo de Professores ">
             </div>

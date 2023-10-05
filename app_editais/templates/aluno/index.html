@@ -59,12 +59,21 @@
          </div>
          <table class="table">
             <h2 class="my-4" style="font-size: 28px;">Lista de Editais Disponíveis</h2>
+            <div>
+               {% if messages %}
+                  <ul class="messages">
+                        {% for message in messages %}
+                           <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                  </ul>
+               {% endif %}
+            </div>
             <thead class="thead-dark">
             <tr>
                <th scope="col">Numero</th>
                <th scope="col">Título</th>
                <th scope="col">Descrição</th>
-               <th scope="col">Número de vagas</th>
+               <th scope="col">Número de vagas </th>
                <th scope="col">Data inicial</th>
                <th scope="col">Data final</th>
                <th scope="col"></th>
@@ -79,7 +88,7 @@
                      <td name="edital">{{edital.numero}}</td>
                      <td>{{edital.titulo}}</td>
                      <td>{{edital.descricao}}</td>
-                     <td>{{edital.n_vagas}}</td>
+                     <td>{{edital.n_vagas_t}}</td>
                      <td>{{edital.data_inicial}}</td>
                      <td>{{edital.data_final}}</td>
                      <td>
@@ -93,13 +102,6 @@
             </tbody>
          </table>
       </div>
-      {% if messages %}
-            <ul class="messages">
-                  {% for message in messages %}
-                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                  {% endfor %}
-            </ul>
-         {% endif %}
       {% include "shared/footer.html "%}
    </body>
 </html>

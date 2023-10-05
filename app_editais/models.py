@@ -17,6 +17,7 @@ class Edital(models.Model):
     titulo = models.CharField(max_length=100)
     descricao = models.TextField()
     n_vagas = models.IntegerField()
+    n_vagas_t = models.IntegerField(null=True)
     data_inicial = models.DateField()
     data_final = models.DateField()
 

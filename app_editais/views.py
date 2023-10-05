@@ -7,7 +7,8 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from rolepermissions.roles import assign_role
-
+import datetime as dd
+from datetime import datetime
 from rolepermissions.decorators import has_role_decorator
 
 # Create your views here.
@@ -41,6 +42,22 @@ def create_prex(request):
         novo_Prex.usuario = request.POST.get('usuario')
         usuario = request.POST.get('usuario')
         senha = request.POST.get('senha')
+        
+        data_nas = request.POST.get('data_nasc')
+        formato_data = "%Y-%m-%d"
+        data_nas = datetime.strptime(data_nas, formato_data)
+        data = data_nas.date()
+        data_atual = dd.date.today()
+        
+        if data >= data_atual:
+            messages.error(request, 'Data inválida. Tente novamente.')
+            return redirect("prex_cadastro")
+        
+        pis = Prex.objects.filter(pis= (request.POST.get('pis') )).first()
+        
+        if pis:
+            messages.error(request, 'Matrícula Já cadastrada. Tente novamente.')
+            return redirect("prex_cadastro")
         
         user = User.objects.filter(username=usuario).first()
         
@@ -221,6 +238,22 @@ def create_aluno(request):
         usuario = request.POST.get('usuario')
         senha = request.POST.get('senha')
         
+        data_nas = request.POST.get('data_nasc')
+        formato_data = "%Y-%m-%d"
+        data_nas = datetime.strptime(data_nas, formato_data)
+        data = data_nas.date()
+        data_atual = dd.date.today()
+        
+        if data >= data_atual:
+            messages.error(request, 'Data inválida. Tente novamente.')
+            return redirect("aluno_cadastro")
+        
+        mat = Aluno.objects.filter(matricula= (request.POST.get('matricula') )).first()
+        
+        if mat:
+            messages.error(request, 'Matrícula Já cadastrada. Tente novamente.')
+            return redirect("aluno_cadastro")
+        
         user = User.objects.filter(username=usuario).first()
         
         if user:
@@ -248,10 +281,11 @@ def edital_criar(request):
 def create_edital(request):
        
     novo_Edital = Edital()
-    novo_Edital.numero = request.POST.get('numero')
+    # novo_Edital.numero = request.POST.get('numero')
     novo_Edital.titulo = request.POST.get('titulo')
     novo_Edital.descricao = request.POST.get('descricao')
     novo_Edital.n_vagas = request.POST.get('n_vagas')
+    novo_Edital.n_vagas_t = request.POST.get('n_vagas')
     novo_Edital.data_inicial = request.POST.get('data_inicial')
     novo_Edital.data_final = request.POST.get('data_final')
 
@@ -273,7 +307,7 @@ def create_projeto(request):
     professor_idd = professor.matricula
     
     novo_Projeto = Projeto()
-    novo_Projeto.id = request.POST.get('id')
+    # novo_Projeto.id = request.POST.get('id')
     novo_Projeto.nome = request.POST.get('nome')
     novo_Projeto.data_de_inicio = request.POST.get('data_de_inicio')
     novo_Projeto.data_de_fim = request.POST.get('data_de_fim')
@@ -314,11 +348,27 @@ def create_professor(request):
         usuario = request.POST.get('usuario')
         senha = request.POST.get('senha')
         
+        data_nas = request.POST.get('data_nasc')
+        formato_data = "%Y-%m-%d"
+        data_nas = datetime.strptime(data_nas, formato_data)
+        data = data_nas.date()
+        data_atual = dd.date.today()
+        
+        if data >= data_atual:
+            messages.error(request, 'Data inválida. Tente novamente.')
+            return redirect("professor_cadastro")
+        
+        mat = Professor.objects.filter(matricula= (request.POST.get('matricula') )).first()
+        
+        if mat:
+            messages.error(request, 'Matrícula Já cadastrada. Tente novamente.')
+            return redirect("professor_cadastro")
+        
         user = User.objects.filter(username=usuario).first()
         
         if user:
             messages.error(request, 'Usuário já Cadastrado. Tente novamente.')
-            return redirect("login_pofessor")
+            return redirect("professor_cadastro")
         else:
             user = User.objects.create_user(username=usuario, password=senha)
             user.save()

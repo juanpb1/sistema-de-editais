@@ -10,9 +10,85 @@
 
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+      <style>
+         .selec{
+            height: 100%;
+            width: 100%;
+            margin-top: 0px;
+            outline: none;
+            font-size: 17px;
+            padding-left: 20px;
+            border: 1px solid lightgrey;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+         }
+
+         .wrapperProoPage{
+            width: 550px;
+            height: 790px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+          }
+          .wrapperProoPage .title{
+            margin-top: 0px;
+            font-size: 35px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 70px;
+            color: #fff;
+            user-select: none;
+            border-radius: 15px 15px 0 0;
+            background: linear-gradient(-135deg, #54a9f3, #4158d0);
+          }
+          .wrapperProoPage form{
+            padding: 0px 30px 0px 30px;
+          }
+          .wrapperProoPage form .field{
+            height: 50px;
+            width: 100%;
+            margin-top: 8px;
+            position: relative;
+            margin-bottom: 9px;
+          }
+          .wrapperProoPage form .field input{
+            height: 100%;
+            width: 100%;
+            margin-top: 0px;
+            outline: none;
+            font-size: 17px;
+            padding-left: 20px;
+            border: 1px solid lightgrey;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+          }
+          .wrapperProoPage form .field label{
+            position: absolute;
+            margin-top: -8px;
+            top: 50%;
+            left: 20px;
+            color: #999999;
+            font-weight: 400;
+            font-size: 17px;
+            pointer-events: none;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+          }
+          .wrapperProoPage form .field input:focus,
+            form .field input:valid{
+            border-color: #4158d0;
+            }
+            .field input:focus,
+            form .field input:valid{
+            border-color: #4158d0;
+            }
+
+      </style>
+
    </head>
    <body>
-      <div class="wrapperPrexPage">
+      <div class="wrapperProoPage">
          <div class="title">
             Cadastro Professor
          </div>
@@ -31,19 +107,23 @@
                 <label>Nacionalidade</label>
              </div>
              <div class="field">
-                <input name="cpf" type="text" onkeypress="$(this).mask('000.000.000-00');" required>
+                <input name="cpf" type="text" onkeypress="$(this).mask('000.000.000-00');" minlength="14" required>
                 <label>Cpf</label>
              </div>
              <div class="field">
-                <input name="sexo" type="text" required>
-                <label>Sexo</label>
+               <select class="selec" name="sexo" required>
+                  <option value="" disabled selected hidden>Sexo</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Outros">Prefiro não dizer</option>
+                </select>
              </div>
              <div class="field">
                 <input name="email" type="email" required>
                 <label>Email</label>
              </div>
              <div class="field">
-                   <input name="telefone" type="text" onkeypress="$(this).mask('(00) 90000-0000');" required>
+                   <input name="telefone" type="text" onkeypress="$(this).mask('(00) 90000-0000');" minlength="15" required>
                 <label>Telefone</label>
              </div>
              <div class="field">

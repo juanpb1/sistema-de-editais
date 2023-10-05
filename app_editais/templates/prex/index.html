@@ -23,12 +23,14 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            overflow-x: hidden;
          }
          .box-lista-editais{
             border-radius: 1rem;
             padding: 2rem;
             background-color: #FFF;
-            margin: 15rem;
+            margin: 7rem 15rem 0 15rem;
+
          }
          .btn-criar-edital{
             display: flex;
@@ -43,13 +45,15 @@
          <div class="btn-criar-edital">
             <input class="btn btn-primary" type="button" value="Criar Edital Novo" onclick="redirecionarCriarEdital();">
          </div>
+         <h4> EDITAIS </h4>
          <table class="table mt-5">
             <thead class="thead-dark">
             <tr>
                <th scope="col">Numero</th>
                <th scope="col">Título</th>
                <th scope="col">Descrição</th>
-               <th scope="col">Número de vagas</th>
+               <th scope="col">Número de vagas Diponíveis</th>
+               <th scope="col">Número de vagas Total</th>
                <th scope="col">Data inicial</th>
                <th scope="col">Data final</th>
                <th scope="col">Ações</th>
@@ -63,6 +67,7 @@
                   <td>{{edital.titulo}}</td>
                   <td>{{edital.descricao}}</td>
                   <td>{{edital.n_vagas}}</td>
+                  <td>{{edital.n_vagas_t}}</td>
                   <td>{{edital.data_inicial}}</td>
                   <td>{{edital.data_final}}</td>
                   <td>
