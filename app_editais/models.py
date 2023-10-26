@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 
 class Aluno(models.Model):
@@ -20,6 +21,9 @@ class Edital(models.Model):
     n_vagas_t = models.IntegerField(null=True)
     data_inicial = models.DateField()
     data_final = models.DateField()
+    pdf_edital = models.FileField(null=True, upload_to=f'pdfs_editais/')
+    ata_cons = models.FileField(null=True, upload_to=f'pdfs_editais/')
+    ata_coleg = models.FileField(null=True, upload_to=f'pdfs_editais/')
 
 class Inscricao(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)

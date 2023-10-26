@@ -192,7 +192,6 @@ def aluno_login(request):
             messages.error(request, 'Usuário ou senha incorretos. Tente novamente.')
     return redirect("aluno_login")
 
-
 @has_role_decorator('aluno')
 def aluno_message(request):
     return render(request, "aluno/message.html")
@@ -281,9 +280,10 @@ def permissao_negada(request, exception):
 def edital_criar(request):
     return render(request, 'edital/criar.html')
 
+@has_role_decorator('prex')
 def create_edital(request):
     if request.method == "GET":
-        return render(request, 'prex/index.html')
+        return render(request, 'edital/criar.html')
     else: 
         novo_Edital = Edital()
         novo_Edital.titulo = request.POST.get('titulo')
@@ -292,7 +292,7 @@ def create_edital(request):
         novo_Edital.n_vagas_t = request.POST.get('n_vagas')
         novo_Edital.data_inicial = request.POST.get('data_inicial')
         novo_Edital.data_final = request.POST.get('data_final')
-    
+         
         data_ini = request.POST.get('data_inicial')
         formato_data = "%Y-%m-%d"
         data_in = datetime.strptime(data_ini, formato_data)
@@ -302,6 +302,21 @@ def create_edital(request):
         if data_fi < data_in:
             messages.error(request, 'Data inválida. Tente novamente.')
             return render(request, 'edital/criar.html')
+        
+        novo_Edital.save()
+        
+        
+        pdf_edital = request.FILES['pdf_edital']
+        nome_pdf_edital = f"edital-{novo_Edital.numero}.pdf" 
+        novo_Edital.pdf_edital.save(nome_pdf_edital, pdf_edital)
+        
+        ata_cons = request.FILES['ata_cons']
+        novo_nome_ata_cons = f"ata-conselho-{novo_Edital.numero}.pdf"
+        novo_Edital.ata_cons.save(novo_nome_ata_cons, ata_cons)
+
+        ata_coleg = request.FILES['ata_coleg']
+        novo_nome_ata_coleg = f"ata-colegiado-{novo_Edital.numero}.pdf" 
+        novo_Edital.ata_coleg.save(novo_nome_ata_coleg, ata_coleg)
 
         novo_Edital.save()
 
