@@ -55,8 +55,8 @@
                <tr>
                   <td>{{projeto.id}}</td>
                   <td>{{projeto.nome}}</td>
-                  <td>{{projeto.data_de_inicio}}</td>
-                  <td>{{projeto.data_de_fim}}</td>
+                  <td>{{projeto.data_de_inicio |date:"d-m-Y"}}</td>
+                  <td>{{projeto.data_de_fim |date:"d-m-Y"}}</td>
                </tr>
                {% endfor %}
             </tbody>

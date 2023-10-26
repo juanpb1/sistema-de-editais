@@ -91,7 +91,7 @@
          </div>
          <div class="container-aluno">
             <h4>Data de nascimento: </h4>
-            <p>{{ aluno.data_nasc }}</p>
+            <p>{{ aluno.data_nasc |date:"d-m-Y" }}</p>
          </div>
          <div class="btn-voltar">
             <input class="btn btn-primary" type="button" value="Voltar" onclick="voltar()">

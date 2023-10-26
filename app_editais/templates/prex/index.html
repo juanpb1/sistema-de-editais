@@ -68,8 +68,8 @@
                   <td>{{edital.descricao}}</td>
                   <td>{{edital.n_vagas}}</td>
                   <td>{{edital.n_vagas_t}}</td>
-                  <td>{{edital.data_inicial}}</td>
-                  <td>{{edital.data_final}}</td>
+                  <td>{{edital.data_inicial |date:"d-m-Y"}}</td>
+                  <td>{{edital.data_final |date:"d-m-Y"}}</td>
                   <td>
                      <div class="btn-criar-edital">
                         <input class="btn btn-primary" type="button" value="Ver edital" onclick="verEdital('{{edital.numero}}');">

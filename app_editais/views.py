@@ -190,7 +190,8 @@ def aluno_login(request):
                 return redirect("aluno_home")
         else:
             messages.error(request, 'Usuário ou senha incorretos. Tente novamente.')
-    return render(request, "aluno/login.html")
+    return redirect("aluno_login")
+
 
 @has_role_decorator('aluno')
 def aluno_message(request):
