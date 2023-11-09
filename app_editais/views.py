@@ -10,6 +10,7 @@ from rolepermissions.roles import assign_role
 import datetime as dd
 from datetime import datetime, timedelta
 from rolepermissions.decorators import has_role_decorator
+import os
 
 # Create your views here.
 
@@ -321,7 +322,62 @@ def create_edital(request):
         novo_Edital.save()
 
         return render(request, 'edital/message.html')
+    
+def edit_edital(request, numero):
+    edital = Edital.objects.get(numero= numero)
+    if request.method == "GET":
+        return render(request, 'edital/edit.html', {'edital' : edital})
+    else: 
+        novas_vagas = int(request.POST.get('n_vagas'))
+        
+        if novas_vagas >= edital.n_vagas:
+            if novas_vagas == edital.n_vagas_t:
+                pass
+            elif novas_vagas > edital.n_vagas_t:
+                edital.n_vagas_t = novas_vagas
+                edital.n_vagas += abs(novas_vagas - edital.n_vagas)
+            elif novas_vagas < edital.n_vagas_t:
+                edital.n_vagas_t = novas_vagas
+                edital.n_vagas -= abs(novas_vagas - edital.n_vagas)
+            
+            edital.titulo = request.POST.get('titulo')
+            edital.descricao = request.POST.get('descricao')
+            edital.data_final = request.POST.get('data_final')
 
+            try:
+                pdf_edital = request.FILES['pdf_edital']
+                nome_pdf_edital = f"edital-{edital.numero}.pdf"
+                if edital.pdf_edital.url:
+                    caminho_arquivo = os.path.join(edital.pdf_edital.url)
+                    os.remove(caminho_arquivo) 
+                edital.pdf_edital.save(nome_pdf_edital, pdf_edital)
+            except:
+                pass
+            try:
+                ata_cons = request.FILES['ata_cons']    
+                novo_nome_ata_cons = f"ata-conselho-{edital.numero}.pdf"
+                if edital.ata_cons.url:
+                    caminho_arquivo = os.path.join(edital.ata_cons.url)
+                    os.remove(caminho_arquivo)
+                edital.ata_cons.save(novo_nome_ata_cons, ata_cons)
+            except:
+                pass
+            try:
+                ata_coleg = request.FILES['ata_coleg']
+                novo_nome_ata_coleg = f"ata-colegiado-{edital.numero}.pdf"
+                if edital.ata_coleg.url:
+                    caminho_arquivo = os.path.join(edital.ata_coleg.url)
+                    os.remove(caminho_arquivo) 
+                edital.ata_coleg.save(novo_nome_ata_coleg, ata_coleg)
+            except:
+                pass
+            
+            
+        edital.save()
+        messages.error(request, 'Alterações realizadas com sucesso.')
+            
+        return redirect('prex')
+        
 @has_role_decorator('prex')
 def edital_message(request):
     return render(request, 'edital/message.html')
