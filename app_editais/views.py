@@ -152,8 +152,6 @@ def aluno_home(request):
 def status_editais(request):
     aluno_user = request.user.username
     aluno = Aluno.objects.prefetch_related("inscricao_set").get(usuario=aluno_user)
-    aluno_idd = aluno.matricula
-    
     inscricoes = aluno.inscricao_set.all()
     
     # edital_status = {}
