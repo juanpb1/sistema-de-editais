@@ -29,6 +29,7 @@ class Inscricao(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
     edital = models.ForeignKey(Edital, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, default='Pendente', choices=[('Pendente', 'Pendente'), ('Aprovado', 'Aprovado'), ('Reprovado', 'Reprovado')])
+    justificativa = models.TextField(null=True)
     
     class Meta:
         unique_together = ('aluno', 'edital')

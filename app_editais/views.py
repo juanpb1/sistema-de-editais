@@ -151,24 +151,27 @@ def aluno_home(request):
 @has_role_decorator('aluno')
 def status_editais(request):
     aluno_user = request.user.username
-    aluno = Aluno.objects.get(usuario=aluno_user)
+    aluno = Aluno.objects.prefetch_related("inscricao_set").get(usuario=aluno_user)
     aluno_idd = aluno.matricula
     
-    edital_status = {}
-    inscricoes = Inscricao.objects.filter(aluno_id=aluno_idd)
-    for inscricao in inscricoes:
-        edital_status[inscricao.edital.numero] = inscricao.status
-
-    editais = Edital.objects.filter(numero__in=list(edital_status.keys()))
-
-    for edital in editais:
-        edital.status = edital_status[edital.numero]
+    inscricoes = aluno.inscricao_set.all()
     
-    context = {
-        'editais': editais
-    }
+    # edital_status = {}
+    # inscricoes = Inscricao.objects.filter(aluno_id=aluno_idd)
+    # for inscricao in inscricoes:
+    #     edital_status[inscricao.edital.numero] = inscricao.status
+    #     edital_status[inscricao.edital.numero] = inscricao.justificativa
+
+    # editais = Edital.objects.filter(numero__in=list(edital_status.keys()))
+
+    # for edital in editais:
+    #     edital.status = edital_status[edital.numero]
     
-    return render(request, 'aluno/status_edital.html', context)
+    # context = {
+    #     'editais': editais
+    # }
+    
+    return render(request, 'aluno/status_edital.html', {"inscricoes":inscricoes})
 
 def aluno_login(request):
     if request.method == "GET":
@@ -515,6 +518,7 @@ def reprovar_aluno(request):
     inscricao = Inscricao.objects.get(aluno_id=aluno_mat, edital_id=edital_num)
     
     inscricao.status = 'Reprovado'
+    inscricao.justificativa = request.POST.get('justificativa')
     inscricao.save()
     messages.error(request, 'Aluno Reprovado')
     

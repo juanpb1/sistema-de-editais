@@ -8,7 +8,7 @@
       <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-      <script src="{% static 'js/script.js' %}"></script>
+
       <style>
          html,body{
             width: 100%;
@@ -54,17 +54,22 @@
                <th scope="col">Data inicial</th>
                <th scope="col">Data final</th>
                <th scope="col">Status</th>
-               <th scope="col"></th>
+               <th scope="col">Jusificativa</th>
             </tr>
             </thead>
             <tbody>
-               {% for edital in editais %}
+               {% for inscricao in inscricoes %}
                <tr>
-                    <td name="edital">{{edital.numero}}</td>
-                    <td>{{edital.titulo}}</td>
-                    <td>{{edital.data_inicial |date:"d-m-Y"}}</td>
-                    <td>{{edital.data_final |date:"d-m-Y"}}</td>
-                    <td>{{edital.status}}<td>
+                    <td name="edital">{{inscricao.edital.numero}}</td>
+                    <td>{{inscricao.edital.titulo}}</td>
+                    <td>{{inscricao.edital.data_inicial |date:"d-m-Y"}}</td>
+                    <td>{{inscricao.edital.data_final |date:"d-m-Y"}}</td>
+                    <td>{{inscricao.status}}</td>
+                     {% if inscricao.justificativa %}
+                        <td>{{inscricao.justificativa}}<td>
+                           {% else %}
+                              <td> <td>
+                     {% endif %}
                </tr>
                {% endfor %}
             </tbody>

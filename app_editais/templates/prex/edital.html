@@ -15,6 +15,11 @@
          function analisarAluno(numero) {
             window.location.href = "/prex/aluno/0".replace('0', numero);
          }
+         function reprovar(matricula){
+            $('#exibirModal').click();
+            input = document.getElementById('aluno_mat');
+            input.value = matricula;
+         }
       </script>
       <style>
          html,body{
@@ -81,6 +86,7 @@
             <h4>Descrição: </h4>
             <p>{{ edital.descricao }}</p>
          </div>
+         
          <div class="alunos-inscritos">
             <div>
             </div>
@@ -108,14 +114,9 @@
                         </form>
                      </td>
                      <td>
-                        <form action="{% url 'reprovar_aluno' %}" method="post">
-                           {% csrf_token %}
-                           <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
-                           <input type="hidden" name="aluno_mat" value="{{ aluno_pendente.aluno.matricula }}">
-                           <div class="btn-criar-edital">
-                              <input class="btn btn-primary" type="submit" value="Reprovar aluno">
-                           </div>
-                        </form>
+                        <div class="btn-criar-edital">
+                           <input class="btn btn-primary" type="button" value="Reprovar aluno" onclick="reprovar('{{aluno_pendente.aluno.matricula}}');">
+                        </div>
                      </td>
                      <td>
                         <div class="btn-criar-edital">
@@ -126,6 +127,30 @@
                </tbody>
                {% endfor %}
             </table>
+         </div>
+      </div>
+      <div class="modal fade" id="reprovaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h1 class="modal-title fs-5" id="exampleModalLabel">Justificativa</h1>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+               <form action="{% url 'reprovar_aluno' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
+                  <input type="hidden" name="aluno_mat" id="aluno_mat">
+                  <input type="text" name="justificativa" id="justificativa" required>
+                  <div class="btn-criar-edital">
+                     <input class="btn btn-primary" type="submit" value="Reprovar aluno" data-bs-dismiss="modal">
+                  </div>
+               </form>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+             </div>
+           </div>
          </div>
       </div>
       <div class="box-lista-editais-a">
@@ -174,6 +199,8 @@
       <div>
          {% include "shared/mensagem.html "%}
          {% include "shared/footer.html "%}
+         <button id="exibirModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reprovaModal" aria-hidden="true" hidden>
+
          
       </div>
    </body>
