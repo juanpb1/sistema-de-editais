@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 
 class Aluno(models.Model):
@@ -17,13 +18,18 @@ class Edital(models.Model):
     titulo = models.CharField(max_length=100)
     descricao = models.TextField()
     n_vagas = models.IntegerField()
+    n_vagas_t = models.IntegerField(null=True)
     data_inicial = models.DateField()
     data_final = models.DateField()
+    pdf_edital = models.FileField(null=True, upload_to=f'pdfs_editais/')
+    ata_cons = models.FileField(null=True, upload_to=f'pdfs_editais/')
+    ata_coleg = models.FileField(null=True, upload_to=f'pdfs_editais/')
 
 class Inscricao(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
     edital = models.ForeignKey(Edital, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, default='Pendente', choices=[('Pendente', 'Pendente'), ('Aprovado', 'Aprovado'), ('Reprovado', 'Reprovado')])
+    justificativa = models.TextField(null=True)
     
     class Meta:
         unique_together = ('aluno', 'edital')
@@ -38,6 +44,7 @@ class Professor(models.Model):
     telefone = models.CharField(max_length=15)
     data_nasc = models.DateField()
     graduacao = models.CharField(max_length=100)
+    usuario = models.CharField(max_length=100, null=True)
 
 class Projeto(models.Model):
     id = models.AutoField(primary_key=True)

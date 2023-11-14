@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Login</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <script type="text/javascript">
+         function redirecionarTelaLoginAluno() {
+            window.location.href = "/login/aluno";
+         }
+      </script>
+      <script type="text/javascript">
+         function redirecionarTelaLoginPrex() {
+            window.location.href = "/login/prex";
+         }
+      </script>
+   </head>
+   <body>
+      <div class="wrapper">
+         <div class="title">
+            Login Professor
+         </div>
+         <form action="{% url 'login_professor' %}"method="post">
+            {% csrf_token %}
+            <div class="boxBtn">
+               <div class="field">
+                  <input type="button" value="Prex" onclick="redirecionarTelaLoginPrex();">
+               </div>
+               <div class="field">
+                  <input type="button" value="Aluno" onclick="redirecionarTelaLoginAluno();">
+               </div>
+            </div>
+            <div class="field">
+               <input name="usuario" type="text" required>
+               <label>Usuário</label>
+            </div>
+            <div class="field">
+               <input name="senha" type="password" required>
+               <label>Senha</label>
+            </div>
+            <div class="content">
+            </div>
+            <div class="field">
+               <input type="submit" value="Login">
+            </div>
+            <div class="signup-link">
+               <a href="/professor/cadastro?">Realizar novo cadastro</a>
+            </div>
+         </form>
+         {% include "shared/mensagem.html "%}
+      </div>
+   </body>
+   </html>
+   

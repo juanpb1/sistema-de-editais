@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Status Editais</title>
+      <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+      <style>
+         html,body{
+            width: 100%;
+            place-items: center;
+            background-image: url("{% static 'background.png'%}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+         }
+         .box-lista-editais{
+            border-radius: 1rem;
+            padding: 2rem;
+            background-color: #FFF;
+            margin: 10rem;
+         }
+         .btn-primary.float-right {
+            position: relative;
+            left: 72rem;
+         }
+         .botao{
+            color: #FFF;
+            background-color: #4158d0;
+            border-radius: 12px;
+            border: none;
+            width: 120px;
+            height: 25px;
+            align-items: center;
+         }
+         .botao:active{
+            transform: scale(0.95);
+         }
+      </style>
+   </head>
+   <body>
+      {% include "shared/navbar.html "%}
+      <div class="box-lista-editais">
+         <table class="table">
+            <h2 class="my-4" style="font-size: 28px;">Editais inscritos</h2>
+            <thead class="thead-dark">
+            <tr>
+               <th scope="col">Numero</th>
+               <th scope="col">Título</th>
+               <th scope="col">Data inicial</th>
+               <th scope="col">Data final</th>
+               <th scope="col">Status</th>
+               <th scope="col">Jusificativa</th>
+            </tr>
+            </thead>
+            <tbody>
+               {% for inscricao in inscricoes %}
+               <tr>
+                    <td name="edital">{{inscricao.edital.numero}}</td>
+                    <td>{{inscricao.edital.titulo}}</td>
+                    <td>{{inscricao.edital.data_inicial |date:"d-m-Y"}}</td>
+                    <td>{{inscricao.edital.data_final |date:"d-m-Y"}}</td>
+                    <td>{{inscricao.status}}</td>
+                     {% if inscricao.justificativa %}
+                        <td>{{inscricao.justificativa}}<td>
+                           {% else %}
+                              <td> <td>
+                     {% endif %}
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+      </div>
+      {% include "shared/mensagem.html "%}
+      {% include "shared/footer.html "%}
+   </body>
+</html>
+
+

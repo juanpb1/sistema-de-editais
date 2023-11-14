@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <title>Cadastro Projeto</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+
+    </style>
+    <script type="text/javascript">
+        function redirecionarTelaLogin() {
+           window.location.href = "/professor";
+        }
+     </script>
+  </head>
+  <body>
+    <div class="container">
+        <div class="box">
+            <h1 class="title-box-confirmation">Projeto criado, </h1>
+            <p class="text-box-confirmation"> Acesse página inicial para visualizar o projeto criado</p>
+            <div class="field">
+                <input type="button" value="PÁGINA INICIAL" onclick="redirecionarTelaLogin();">
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

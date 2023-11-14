@@ -1,0 +1,207 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Home</title>
+      <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+      <script type="text/javascript">
+         function analisarAluno(numero) {
+            window.location.href = "/prex/aluno/0".replace('0', numero);
+         }
+         function reprovar(matricula){
+            $('#exibirModal').click();
+            input = document.getElementById('aluno_mat');
+            input.value = matricula;
+         }
+      </script>
+      <style>
+         html,body{
+            width: 100%;
+            heigth: 100%;
+            background-image: url("{% static 'background.png'%}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding: 0 0 2.7rem 0;
+         }
+         .box-lista-editais{
+            border-radius: 1rem;
+            padding: 2rem;
+            background-color: #FFF;
+            margin-left: 15rem;
+            margin-right: 15rem;
+            margin-top: 7rem;
+         }
+         .box-lista-editais-a{
+            border-radius: 1rem;
+            padding: 2rem;
+            background-color: #FFF;
+            margin-left: 15rem;
+            margin-right: 15rem;
+            margin-top: 2rem;
+         }
+         .box-lista-editais-r{
+            border-radius: 1rem;
+            padding: 2rem;
+            background-color: #FFF;
+            margin-left: 15rem;
+            margin-right: 15rem;
+            margin-top: 2rem;
+            margin-button: 7rem;
+         }
+         .btn-criar-edital{
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+         }
+         .titulo-descricao-edital{
+            display: flex;
+            flex-direction: row;
+         }
+         p{
+            font-size: 1rem;
+            font-style: italic;
+            margin: 0.25rem;
+         }
+         .alunos-inscritos{
+            margin-top: 2rem;
+         }
+      </style>
+   </head>
+   <body>
+      {% include "shared/navbar.html "%}
+      <div class="box-lista-editais">
+         <div class="titulo-descricao-edital">
+            <h4>Edital: </h4>
+            <p>{{ edital.titulo }}</p>
+         </div>
+         <div class="titulo-descricao-edital">
+            <h4>Descrição: </h4>
+            <p>{{ edital.descricao }}</p>
+         </div>
+         
+         <div class="alunos-inscritos">
+            <div>
+            </div>
+            <h4> ALUNOS INSCRITOS PENDENTES </h4>
+            <table class="table mt-2">
+               <thead class="thead-dark">
+                  <tr>
+                     <th scope="col">Matricula</th>
+                     <th scope="col">Nome do Aluno</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for aluno_pendente in alunos_pendentes %}
+                  <tr>
+                     <td>{{aluno_pendente.aluno.matricula}}</td>
+                     <td>{{aluno_pendente.aluno.nome}}</td>
+                     <td>
+                        <form action="{% url 'aprovar_aluno' %}" method="post">
+                           {% csrf_token %}
+                           <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
+                           <input type="hidden" name="aluno_mat" value="{{ aluno_pendente.aluno.matricula }}">
+                           <div class="btn-criar-edital">
+                              <input class="btn btn-primary" type="submit" value="Aprovar aluno">
+                           </div>
+                        </form>
+                     </td>
+                     <td>
+                        <div class="btn-criar-edital">
+                           <input class="btn btn-primary" type="button" value="Reprovar aluno" onclick="reprovar('{{aluno_pendente.aluno.matricula}}');">
+                        </div>
+                     </td>
+                     <td>
+                        <div class="btn-criar-edital">
+                           <input class="btn btn-primary" type="button" value="Analisar aluno" onclick="analisarAluno('{{aluno_pendente.aluno.matricula}}');">
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+               {% endfor %}
+            </table>
+         </div>
+      </div>
+      <div class="modal fade" id="reprovaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h1 class="modal-title fs-5" id="exampleModalLabel">Justificativa</h1>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+               <form action="{% url 'reprovar_aluno' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="edital_numero" value="{{ edital.numero }}">
+                  <input type="hidden" name="aluno_mat" id="aluno_mat">
+                  <input type="text" name="justificativa" id="justificativa" required>
+                  <div class="btn-criar-edital">
+                     <input class="btn btn-primary" type="submit" value="Reprovar aluno" data-bs-dismiss="modal">
+                  </div>
+               </form>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+             </div>
+           </div>
+         </div>
+      </div>
+      <div class="box-lista-editais-a">
+         <div class="alunos-inscritos">
+            <h4> ALUNOS APROVADOS </h4>
+            <table class="table mt-2">
+               <thead class="thead-dark">
+                  <tr>
+                     <th scope="col">Matricula</th>
+                     <th scope="col">Nome do Aluno</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for aluno_aprovado in alunos_aprovados %}
+                  <tr>
+                     <td>{{aluno_aprovado.aluno.matricula}}</td>
+                     <td>{{aluno_aprovado.aluno.nome}}</td>
+                  </tr>
+               </tbody>
+               {% endfor %}
+            </table>
+         </div>
+      </div>
+      
+      <div class="box-lista-editais-r">
+         <div class="alunos-inscritos">
+            <h4> ALUNOS REPROVADOS </h4>
+            <table class="table mt-2">
+               <thead class="thead-dark">
+                  <tr>
+                     <th scope="col">Matricula</th>
+                     <th scope="col">Nome do Aluno</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for aluno_reprovado in alunos_reprovados %}
+                  <tr>
+                     <td>{{aluno_reprovado.aluno.matricula}}</td>
+                     <td>{{aluno_reprovado.aluno.nome}}</td>
+                  </tr>
+               </tbody>
+               {% endfor %}
+            </table>
+         </div>
+      </div>
+      <div>
+         {% include "shared/mensagem.html "%}
+         {% include "shared/footer.html "%}
+         <button id="exibirModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reprovaModal" aria-hidden="true" hidden>
+
+         
+      </div>
+   </body>
+</html>

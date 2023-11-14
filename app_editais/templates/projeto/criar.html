@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Home</title>
+      <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <style>
+            html,body{ 
+                width: 100%;
+                background-image: url("{% static 'background.png'%}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+        }
+        .container{
+            width: 30rem;
+            margin-top: 10rem;
+            padding: 1rem;
+            background-color: aliceblue;
+            border-radius: 1em;
+        }
+    </style>
+</head>
+<body>
+    {% include "shared/navbar.html "%}
+    <div class="container">
+        <div class="align-items-center mb-4">
+            <h2>Criar um Projeto</h2>
+        </div>
+        <form action="{% url 'projeto_criar' %}"method="post">
+            {% csrf_token %}
+            <div class="form-group mt-2">
+                <label for="exampleFormControlInput1">Nome</label>
+                <input type="text" class="form-control" name="nome"  placeholder="Clube de Programação ">
+            </div>
+            <div class="form-group mt-2">
+                <label for="exampleFormControlInput1">Data inicial</label>
+                <input type="date" class="form-control" name="data_de_inicio" >
+            </div>
+            <div class="form-group mt-2">
+                <label for="exampleFormControlInput1">Data final</label>
+                <input type="date" class="form-control" name="data_de_fim"  >
+            </div>
+            <div class="d-grid gap-2 mt-5">
+                <button type="submit" class="btn btn-primary mt-2">Criar</button>
+            </div>
+            
+        </form>
+    </div>
+    {% include "shared/mensagem.html "%}
+    {% include "shared/footer.html "%}
+</body>
+</html>

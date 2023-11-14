@@ -5,11 +5,22 @@
    <head>
       <meta charset="utf-8">
       <title>Login</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>  
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
       <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      {% comment %} <script src="{% static 'js/script.js' %}"></script> {% endcomment %}
+
       <script type="text/javascript">
-         function redirecionarTelaLogin() {
+         function redirecionarTelaLoginPrex() {
             window.location.href = "/login/prex";
+         }
+      </script>
+      <script type="text/javascript">
+         function redirecionarTelaLoginProfessor() {
+            window.location.href = "/login/professor";
          }
       </script>
    </head>
@@ -22,10 +33,10 @@
             {% csrf_token %}
             <div class="boxBtn">
                <div class="field">
-                  <input type="button" value="Prex" onclick="redirecionarTelaLogin();">
+                  <input type="button" value="Prex" onclick="redirecionarTelaLoginPrex();">
                </div>
                <div class="field">
-                  <input type="button" value="Professor" onclick="redirecionarTelaLogin();">
+                  <input type="button" value="Professor" onclick="redirecionarTelaLoginProfessor();">
                </div>
             </div>
             <div class="field">
@@ -45,13 +56,9 @@
                Ainda não tem cadastro? <a href="/aluno/cadastro">Cadastre-se</a>
             </div>
          </form>
-         {% if messages %}
-            <ul class="messages">
-                  {% for message in messages %}
-                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                  {% endfor %}
-            </ul>
-         {% endif %}
+      {% include "shared/mensagem.html "%}
+         
       </div>
+
    </body>
 </html>

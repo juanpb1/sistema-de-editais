@@ -171,6 +171,7 @@ form .field input:valid{
   border-radius: 25px;
   transition: all 0.3s ease;
 }
+
 .field input{
   height: 100%;
   width: 100%;
