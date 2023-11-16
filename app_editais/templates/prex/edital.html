@@ -86,6 +86,12 @@
             <h4>Descrição: </h4>
             <p>{{ edital.descricao }}</p>
          </div>
+         <div class="titulo-descricao-edital" style="display: flex; flex-direction: column;">
+            <h4>Arquivos: </h4>
+            <a href="{{edital.pdf_edital.url}}" target="_blank">Edital-{{edital.titulo}}</a>
+            <a href="{{edital.ata_cons.url}}" target="_blank">Ata do Conselho-{{edital.titulo}}</a>
+            <a href="{{edital.ata_coleg.url}}" target="_blank">Ata do Colegiado-{{edital.titulo}}</a>
+         </div>
          
          <div class="alunos-inscritos">
             <div>

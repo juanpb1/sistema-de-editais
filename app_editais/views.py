@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.utils import timezone
 from django.contrib import messages
-from .models import Prex, Aluno, Edital, Inscricao, Projeto, Professor
+from .models import Prex, Aluno, Edital, Inscricao, Projeto, Professor, Relatorio
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -11,6 +11,7 @@ import datetime as dd
 from datetime import datetime, timedelta
 from rolepermissions.decorators import has_role_decorator
 import os
+from django.urls import reverse
 
 # Create your views here.
 
@@ -20,11 +21,11 @@ def home(request):
 @has_role_decorator('prex')
 def prex(request):
 
-    editais = {
-        'editais': Edital.objects.all()
-    }
+    editais= Edital.objects.all()
+    
+    projetos = Projeto.objects.select_related('professor').all()
 
-    return render(request, "prex/index.html", editais)
+    return render(request, "prex/index.html", {'editais':editais, 'projetos':projetos})
 
 @has_role_decorator('admin')
 def create_prex(request):
@@ -323,7 +324,8 @@ def create_edital(request):
         novo_Edital.save()
 
         return render(request, 'edital/message.html')
-    
+
+@has_role_decorator('prex')    
 def edit_edital(request, numero):
     edital = Edital.objects.get(numero= numero)
     if request.method == "GET":
@@ -348,8 +350,8 @@ def edit_edital(request, numero):
             try:
                 pdf_edital = request.FILES['pdf_edital']
                 nome_pdf_edital = f"edital-{edital.numero}.pdf"
-                if edital.pdf_edital.url:
-                    caminho_arquivo = os.path.join(edital.pdf_edital.url)
+                if edital.pdf_edital:
+                    caminho_arquivo = os.path.join(edital.pdf_edital)
                     os.remove(caminho_arquivo) 
                 edital.pdf_edital.save(nome_pdf_edital, pdf_edital)
             except:
@@ -357,8 +359,8 @@ def edit_edital(request, numero):
             try:
                 ata_cons = request.FILES['ata_cons']    
                 novo_nome_ata_cons = f"ata-conselho-{edital.numero}.pdf"
-                if edital.ata_cons.url:
-                    caminho_arquivo = os.path.join(edital.ata_cons.url)
+                if edital.ata_cons:
+                    caminho_arquivo = os.path.join(edital.ata_cons)
                     os.remove(caminho_arquivo)
                 edital.ata_cons.save(novo_nome_ata_cons, ata_cons)
             except:
@@ -366,8 +368,8 @@ def edit_edital(request, numero):
             try:
                 ata_coleg = request.FILES['ata_coleg']
                 novo_nome_ata_coleg = f"ata-colegiado-{edital.numero}.pdf"
-                if edital.ata_coleg.url:
-                    caminho_arquivo = os.path.join(edital.ata_coleg.url)
+                if edital.ata_coleg:
+                    caminho_arquivo = os.path.join(edital.ata_coleg)
                     os.remove(caminho_arquivo) 
                 edital.ata_coleg.save(novo_nome_ata_coleg, ata_coleg)
             except:
@@ -387,6 +389,7 @@ def edital_message(request):
 def projeto_criar(request):
     return render(request, 'projeto/criar.html')
 
+@has_role_decorator('professor')
 def create_projeto(request):
     professor_user = request.user.username
     professor = Professor.objects.get(usuario=professor_user)
@@ -407,6 +410,7 @@ def create_projeto(request):
 def projeto_message(request):
     return render(request, 'projeto/message.html')
 
+@has_role_decorator('prex') 
 def visualizar_edital(request, numero):
 
     edital = Edital.objects.get(numero=numero)
@@ -415,7 +419,7 @@ def visualizar_edital(request, numero):
 
     return render(request, 'prex/ver.html', {"edital": edital})
 
-@has_role_decorator('admin')
+@has_role_decorator('prex')
 def create_professor(request):
     if request.method == "GET":
         return render(request, 'professor/cadastro.html')
@@ -465,6 +469,7 @@ def create_professor(request):
             messages.error(request, 'Cadastrado com sucesso.')
         return render(request, "professor/login.html")
 
+@has_role_decorator('professor')
 def home_professor(request):
 
     professor_user = request.user.username
@@ -477,6 +482,7 @@ def home_professor(request):
     
     return render(request, "professor/index.html", projetos) 
 
+@has_role_decorator('prex') 
 def visualizar_edital(request, numero):
 
     edital = Edital.objects.get(numero=numero)
@@ -488,10 +494,12 @@ def visualizar_edital(request, numero):
 
     return render(request, 'prex/edital.html', {"edital": edital, "alunos_pendentes": alunos_pendentes, "alunos_aprovados": alunos_aprovados, "alunos_reprovados": alunos_reprovados})
 
+@has_role_decorator('prex') 
 def visualizar_aluno(request, numero):
     aluno = Aluno.objects.get(matricula=numero)
     return render(request, 'prex/aluno.html', {"aluno": aluno} )
 
+@has_role_decorator('prex')
 def aprovar_aluno(request):
     edital_num = request.POST.get('edital_numero')
     aluno_mat = request.POST.get('aluno_mat')
@@ -509,7 +517,8 @@ def aprovar_aluno(request):
         messages.error(request, 'Vagas indisponíveis')
         
     return redirect(f'/prex/edital/{edital_num}')
-    
+
+@has_role_decorator('prex')    
 def reprovar_aluno(request):
     edital_num = request.POST.get('edital_numero')
     aluno_mat = request.POST.get('aluno_mat')
@@ -521,3 +530,65 @@ def reprovar_aluno(request):
     messages.error(request, 'Aluno Reprovado')
     
     return redirect(f'/prex/edital/{edital_num}')
+
+@has_role_decorator('professor')
+def ver_projeto(request, numero):
+    projeto = Projeto.objects.prefetch_related('relatorio_set').select_related('professor').get(id=numero)
+    return render(request, 'professor/projeto.html', {"projeto": projeto} )
+
+@has_role_decorator('professor')
+def cria_relatorio(request):
+    id_projeto = request.POST.get('projeto')
+    projeto = Projeto.objects.get(id=id_projeto)
+    relatorio = Relatorio()
+    
+    print(projeto)
+    
+    qtd_relatorios = Relatorio.objects.filter(projeto_id_id= id_projeto).count()
+    
+    doc = request.FILES['documento']
+    nome_documento = f"relatorio-{qtd_relatorios + 1}-{id_projeto}.pdf" 
+    relatorio.projeto_id = projeto
+    relatorio.pdf_edital.save(nome_documento, doc)
+    relatorio.save()
+    
+    messages.error(request, 'Relatório enviado, aguarde o retorno da prex')
+    return redirect(reverse('ver_projeto', kwargs={'numero': projeto.id}))
+
+@has_role_decorator('professor')
+def edit_projeto(request, numero):
+    projeto = Projeto.objects.get(id= numero)
+    if request.method == "GET":
+        return render(request, 'projeto/edit.html', {'projeto' : projeto})
+    else: 
+        projeto.nome = request.POST.get('nome')
+        projeto.data_de_fim = request.POST.get('data_de_fim')
+        projeto.status = request.POST.get('status')
+        projeto.save()
+    
+    messages.error(request, 'Alterações realizadas com sucesso.')      
+    return redirect(reverse('ver_projeto', kwargs={'numero': projeto.id}))
+
+@has_role_decorator('prex')
+def ver_projeto_prex(request, numero):
+    projeto = Projeto.objects.prefetch_related('relatorio_set').select_related('professor').get(id=numero)
+    return render(request, 'prex/projeto.html', {"projeto": projeto} )
+
+@has_role_decorator('prex')
+def aprovar_relatorio(request, numero):
+    relatorio = Relatorio.objects.select_related('projeto_id').get(id=numero)
+    relatorio.status = "Aprovado"
+    relatorio.save()
+    
+    messages.error(request, 'Relatório aprovado com sucesso!')
+    return redirect(reverse('ver_projeto_prex', kwargs={'numero': relatorio.projeto_id.id}))
+
+@has_role_decorator('prex')
+def reprovar_relatorio(request, numero):
+    relatorio = Relatorio.objects.select_related('projeto_id').get(id=numero)
+    relatorio.status = "Reprovado"
+    relatorio.just_reprov = request.POST.get('justificativa')
+    relatorio.save()
+    
+    messages.error(request, 'Relatório reprovado com sucesso!')
+    return redirect(reverse('ver_projeto_prex', kwargs={'numero': relatorio.projeto_id.id}))

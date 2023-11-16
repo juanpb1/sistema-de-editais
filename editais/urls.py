@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from app_editais import views
 from django.conf.urls import handler403
+from django.conf import settings
+from django.conf.urls.static import static
 
 import app_editais
 
@@ -37,4 +39,5 @@ urlpatterns = [
     path('edital/<int:numero>/editar', views.edit_edital, name='edital_editar')
 ]
 
-
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

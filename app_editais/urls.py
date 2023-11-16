@@ -23,6 +23,17 @@ urlpatterns = [
     path('prex/aluno/<int:numero>', views.visualizar_aluno, name='visualizar_aluno'),
     path('aprovar/', views.aprovar_aluno, name='aprovar_aluno'),
     path('reprovar/', views.reprovar_aluno, name='reprovar_aluno'),
+    path('projeto/<int:numero>', views.ver_projeto, name='ver_projeto'),
+    path('relatorio/criar', views.cria_relatorio, name='cria_relatorio'),
+    path('projeto/<int:numero>/edit', views.edit_projeto, name='edit_projeto'),
+    path('projeto/<int:numero>/prex', views.ver_projeto_prex, name='ver_projeto_prex'),
+    path('relatorio/<int:numero>/aprovar', views.aprovar_relatorio, name='aprovar_relatorio'),
+    path('relatorio/<int:numero>/reprovar', views.reprovar_relatorio, name='reprovar_relatorio'),
 
+    
+
+    
+    
+    
 ]
 

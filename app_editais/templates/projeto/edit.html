@@ -27,6 +27,17 @@
             background-color: aliceblue;
             border-radius: 1em;
         }
+        .selec{
+            height: 100%;
+            width: 100%;
+            margin-top: 0px;
+            outline: none;
+            font-size: 17px;
+            padding-left: 20px;
+            border: 1px solid lightgrey;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+         }
     </style>
 </head>
 <body>
@@ -35,42 +46,37 @@
         <div class="align-items-center mb-4">
             <h2>Criar um Projeto</h2>
         </div>
-        <form action="{% url 'projeto_criar' %}"method="post">
+        <form action="{% url 'edit_projeto' projeto.id %}"method="post">
             {% csrf_token %}
             <div class="form-group mt-2">
                 <label for="exampleFormControlInput1">Nome</label>
-                <input type="text" class="form-control" name="nome"  placeholder="Clube de Programação ">
+                <input type="text" class="form-control" name="nome" value="{{projeto.nome}}" placeholder="Clube de Programação ">
             </div>
-            <div class="form-group mt-2">
-                <label for="exampleFormControlInput1">Data inicial</label>
-                <input type="date" class="form-control" name="data_de_inicio" id="data_de_inicio" >
-            </div>
+            <div class="field">
+                <label for="status">Status</label>
+                <select class="selec" name="status" required>
+                   <option selected value="{{projeto.status}}">{{projeto.status}}</option>
+                   <option value="Em andamento">Em andamento</option>
+                   <option value="Concluído">Concluído</option>
+                </select>
+             </div>
             <div class="form-group mt-2">
                 <label for="exampleFormControlInput1">Data final</label>
-                <input type="date" class="form-control" name="data_de_fim" id="data_de_fim" >
+                <input type="date" class="form-control" name="data_de_fim" value="{{projeto.data_de_fim|date:'Y-m-d'}}" >
             </div>
             <div class="d-grid gap-2 mt-5">
-                <button type="submit" class="btn btn-primary mt-2">Criar</button>
+                <button type="submit" class="btn btn-primary mt-2">Confirmar</button>
             </div>
             
         </form>
     </div>
-    <script>
+     <script>
         document.getElementById('data_de_fim').addEventListener('change', function() {
         var currentDate = new Date();
         var inputDate = new Date(this.value);
         if (inputDate <= currentDate) {
             alert('Data inválida!');
-            this.value = ""
-        } 
-        });
-
-        document.getElementById('data_de_inicio').addEventListener('change', function() {
-        var currentDate = new Date();
-        var inputDate = new Date(this.value);
-        if (inputDate <= currentDate) {
-            alert('Data inválida!');
-            this.value = ""
+            this.value = "{{projeto.data_de_fim|date:'Y-m-d'}}"
         } 
         });
 

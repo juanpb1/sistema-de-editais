@@ -23,7 +23,7 @@
             }
             .container{
                 width: 30rem;
-                margin-top: 10rem;
+                margin-top: 5rem;
                 padding: 1rem;
                 background-color: aliceblue;
                 border-radius: 1em;
@@ -74,13 +74,8 @@
     </div>
     <script>
         document.getElementById('data_final').addEventListener('change', function() {
-            // Obtém a data atual
             var currentDate = new Date();
-      
-            // Obtém a data inserida pelo usuário
             var inputDate = new Date(this.value);
-      
-            // Compara as datas
             if (inputDate <= currentDate) {
               alert('Data inválida!');
               this.value = "{{edital.data_final|date:'Y-m-d'}}"
@@ -88,9 +83,7 @@
           });
 
           document.getElementById('n_vagas').addEventListener('change', function() {
-            
             var vagas = parseInt({{edital.n_vagas_t}}) - parseInt({{edital.n_vagas}});
-            
             if(this.value < vagas){
                 alert('Quantidade inválida.');
                 this.value = {{edital.n_vagas_t}}

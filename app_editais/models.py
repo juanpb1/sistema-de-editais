@@ -52,11 +52,16 @@ class Projeto(models.Model):
     data_de_inicio = models.DateField()
     data_de_fim = models.DateField()
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, default='Em andamento', choices=[('Em andamento', 'Em andamento'), ('Concluído', 'Concluído')])
 
 class Relatorio(models.Model):
     id = models.AutoField(primary_key=True)
-    status = models.CharField(max_length=20, choices=[('Em andamento', 'Em andamento'), ('Concluído', 'Concluído')])
+    status = models.CharField(max_length=20, default='Pendente', choices=[('Pendente', 'Pendente'), ('Aprovado', 'Aprovado'), ('Reprovado', 'Reprovado')])
+    data_de_envio = models.DateField(auto_now_add=True)
     projeto_id = models.ForeignKey(Projeto, on_delete=models.CASCADE)
+    pdf_edital = models.FileField(null=True, upload_to=f'relatorios/')
+    just_reprov = models.TextField(null=True)
+    
 
 class Prex(models.Model):
     pis = models.AutoField(primary_key=True)
